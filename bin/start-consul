@@ -2,6 +2,6 @@
 
 BASE=`dirname $0`/..
 
-cd $BASE/consul
+cd $BASE/consul-configuration
 
 consul agent -config-dir=.
