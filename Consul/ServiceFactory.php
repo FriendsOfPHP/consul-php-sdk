@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 class ServiceFactory
 {
     private static $services = array(
+        'agent' => 'SensioLabs\Consul\Services\Agent',
         'kv' => 'SensioLabs\Consul\Services\KV',
         'session' => 'SensioLabs\Consul\Services\Session',
     );
