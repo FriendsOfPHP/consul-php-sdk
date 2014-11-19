@@ -21,5 +21,9 @@
         "branch-alias": {
             "dev-master": "1.0-dev"
         }
+    },
+    "require-dev": {
+        "symfony/process": "~2.5",
+        "symfony/filesystem": "~2.5"
     }
 }
