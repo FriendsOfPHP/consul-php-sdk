@@ -58,5 +58,6 @@ So if you want to acquire an exclusive lock:
 Available services
 ------------------
 
+* agent
 * kv
 * session
