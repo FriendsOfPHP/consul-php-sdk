@@ -59,5 +59,6 @@ Available services
 ------------------
 
 * agent
+* health
 * kv
 * session
