@@ -61,36 +61,36 @@ class Agent
         return $this->client->put('/v1/agent/check/register', $params);
     }
 
-    public function deregisterCheck($checkId)
+    public function deregisterCheck($check)
     {
-        return $this->client->put('/v1/agent/check/deregister/'.$checkId);
+        return $this->client->put('/v1/agent/check/deregister/'.$check);
     }
 
-    public function passCheck($checkId, array $options = array())
+    public function passCheck($check, array $options = array())
     {
         $params = array(
             'query' => OptionsResolver::resolve($options, array('note')),
         );
 
-        return $this->client->put('/v1/agent/check/pass/'.$checkId, $params);
+        return $this->client->put('/v1/agent/check/pass/'.$check, $params);
     }
 
-    public function warnCheck($checkId, array $options = array())
+    public function warnCheck($check, array $options = array())
     {
         $params = array(
             'query' => OptionsResolver::resolve($options, array('note')),
         );
 
-        return $this->client->put('/v1/agent/check/warn/'.$checkId, $params);
+        return $this->client->put('/v1/agent/check/warn/'.$check, $params);
     }
 
-    public function failCheck($checkId, array $options = array())
+    public function failCheck($check, array $options = array())
     {
         $params = array(
             'query' => OptionsResolver::resolve($options, array('note')),
         );
 
-        return $this->client->put('/v1/agent/check/fail/'.$checkId, $params);
+        return $this->client->put('/v1/agent/check/fail/'.$check, $params);
     }
 
     public function registerService($service)
@@ -102,8 +102,8 @@ class Agent
         return $this->client->put('/v1/agent/service/register', $params);
     }
 
-    public function deregisterService($serviceId)
+    public function deregisterService($service)
     {
-        return $this->client->put('/v1/agent/service/deregister/'.$serviceId);
+        return $this->client->put('/v1/agent/service/deregister/'.$service);
     }
 }
