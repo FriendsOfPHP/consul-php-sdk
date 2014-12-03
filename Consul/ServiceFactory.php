@@ -9,6 +9,7 @@ class ServiceFactory
 {
     private static $services = array(
         'agent' => 'SensioLabs\Consul\Services\Agent',
+        'catalog' => 'SensioLabs\Consul\Services\Catalog',
         'health' => 'SensioLabs\Consul\Services\Health',
         'kv' => 'SensioLabs\Consul\Services\KV',
         'session' => 'SensioLabs\Consul\Services\Session',

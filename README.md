@@ -59,6 +59,7 @@ Available services
 ------------------
 
 * agent
+* catalog
 * health
 * kv
 * session
