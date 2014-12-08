@@ -63,3 +63,8 @@ Available services
 * health
 * kv
 * session
+
+Some utilities
+--------------
+
+* Lock handler: Simple class that implement a distributed lock
