@@ -1,11 +1,11 @@
 {
-    "name": "sensiolabs/consul-php-sdk",
-    "description": "SDK to talk with consul.io API",
+    "name": "XerxesDGreat/consul-php-sdk",
+    "description": "SDK to talk with consul.io API. Forked from sensiolabs/consul-php-sdk to provide Guzzle 6.0 compatibility",
     "license": "MIT",
     "authors": [
         {
-            "name": "Grégoire Pineau",
-            "email": "lyrixx@lyrixx.info"
+            "name": "Josh Wickham",
+            "email": "josh@i-josh.com"
         }
     ],
     "require": {
@@ -19,7 +19,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1-dev"
+            "dev-master": "1.2-dev"
         }
     }
 }
