@@ -1,5 +1,5 @@
 {
-    "name": "XerxesDGreat/consul-php-sdk",
+    "name": "life360/consul-php-sdk",
     "description": "SDK to talk with consul.io API. Forked from sensiolabs/consul-php-sdk to provide Guzzle 6.0 compatibility",
     "license": "MIT",
     "authors": [
