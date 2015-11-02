@@ -66,7 +66,7 @@ class Client
     public function send(RequestInterface $request)
     {
         $this->logger->info(sprintf('%s "%s"', $request->getMethod(), $request->getUri()));
-        $this->logger->debug(sprintf("Request:\n%s", (string) $request));
+        $this->logger->debug(sprintf("Request:\n%s\n%s\n%s", $request->getUri(), $request->getMethod(), json_encode($request->getHeaders())));
 
         try {
             $response = $this->client->send($request);
@@ -78,7 +78,7 @@ class Client
             throw new ServerException($message);
         }
 
-        $this->logger->debug(sprintf("Response:\n%s", $response));
+        $this->logger->debug(sprintf("Response:\n%s\n%s\n%s", $response->getStatusCode(), json_encode($response->getHeaders()), $response->getBody()->getContents()));
 
         if (400 <= $response->getStatusCode()) {
             $message = sprintf('Something went wrong when calling consul (%s - %s).', $response->getStatusCode(), $response->getReasonPhrase());
