@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\Consul\Tests;
+namespace SensioLabs\Consul\Tests\Unit;
 
 use SensioLabs\Consul\OptionsResolver;
 

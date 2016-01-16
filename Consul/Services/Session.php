@@ -78,4 +78,18 @@ class Session
 
         return $this->client->put('v1/kv/'.$key, $params);
     }
+
+    /**
+     * @param string $sessionId
+     * @param array  $options
+     * @return mixed
+     */
+    public function renew($sessionId, array $options = array())
+    {
+        $params = array(
+            'query' => OptionsResolver::resolve($options, array('dc')),
+        );
+
+        return $this->client->put('/v1/session/renew/'.$sessionId, $params);
+    }
 }
