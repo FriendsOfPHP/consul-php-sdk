@@ -98,7 +98,7 @@ Also you can use MultiSemaphore:
     ];
 
     $semaphore = $multiSemaphoreFactory->getMultiSemaphore($resources, 60);
-    if (!$semaphore1->acquire()) {
+    if (!$semaphore->acquire()) {
         echo "Resource are not available.\n";
         exit(1);
     }
