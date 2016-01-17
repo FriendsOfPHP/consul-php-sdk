@@ -6,10 +6,6 @@ use SensioLabs\Consul\Services\KV;
 use SensioLabs\Consul\Services\Session;
 use SensioLabs\Consul\Helper\MultiSemaphore\Resource;
 
-/**
- * Class MultiSemaphoreFactory
- * @package ETWater\ESP\ConsulBundle\Service
- */
 class MultiSemaphoreFactory
 {
     /**

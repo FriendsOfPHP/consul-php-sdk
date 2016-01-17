@@ -2,10 +2,6 @@
 
 namespace SensioLabs\Consul\Helper;
 
-/**
- * Class MultiSemaphoreInterface
- * @package ETWater\ESP\ConsulBundle\Service
- */
 interface MultiSemaphoreInterface
 {
     /**

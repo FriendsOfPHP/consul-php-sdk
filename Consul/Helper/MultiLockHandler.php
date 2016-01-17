@@ -5,10 +5,6 @@ namespace SensioLabs\Consul\Helper;
 use SensioLabs\Consul\Services\KV;
 use SensioLabs\Consul\Services\Session;
 
-/**
- * Class MultiLockHandler
- * @package ETWater\ESP\CrawlerBundle\Service
- */
 class MultiLockHandler
 {
     /**

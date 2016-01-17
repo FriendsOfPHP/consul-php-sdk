@@ -9,10 +9,6 @@ use SensioLabs\Consul\Client;
 use SensioLabs\Consul\Helper\MultiLockHandler;
 use SensioLabs\Consul\ServiceFactory;
 
-/**
- * Class MultiLockHandlerTest
- * @package ETWater\ESP\CrawlerBundle\Tests\Unit\Service
- */
 class MultiLockHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**

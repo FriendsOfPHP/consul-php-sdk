@@ -7,10 +7,6 @@ use SensioLabs\Consul\Helper\MultiSemaphoreFactory;
 use SensioLabs\Consul\Helper\MultiSemaphore;
 use SensioLabs\Consul\ServiceFactory;
 
-/**
- * Class MultiSemaphoreTest
- * @package ETWater\ESP\ConsulBundle\Tests\Integration
- */
 class MultiSemaphoreTest extends \PHPUnit_Framework_TestCase
 {
     /**

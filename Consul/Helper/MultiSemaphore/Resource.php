@@ -2,10 +2,6 @@
 
 namespace SensioLabs\Consul\Helper\MultiSemaphore;
 
-/**
- * Class Resource
- * @package SensioLabs\Consul\Services\MultiSemaphore
- */
 class Resource
 {
     /**
