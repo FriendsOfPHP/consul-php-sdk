@@ -81,11 +81,12 @@ class Client
         $this->logger->debug(sprintf("Response:\n%s\n%s\n%s", $response->getStatusCode(), json_encode($response->getHeaders()), $response->getBody()->getContents()));
 
         if (400 <= $response->getStatusCode()) {
-            $message = sprintf('Something went wrong when calling consul (%s - %s).', $response->getStatusCode(), $response->getReasonPhrase());
+            $message = sprintf('Something went wrong when calling consul statusCode=[%s] reasonPhrase=[%s] uri=[%s]).', $response->getStatusCode(), $response->getReasonPhrase(), $request->getUri());
 
             $this->logger->error($message);
 
-            $message .= "\n$response";
+
+            $message .= "\n" . $response->getBody()->__toString();
             if (500 <= $response->getStatusCode()) {
                 throw new ServerException($message);
             }
