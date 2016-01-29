@@ -37,8 +37,8 @@ class MultiLockHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $resources = ['resource1', 'resource2'];
 
-        $multiLockHandler1 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
-        $multiLockHandler2 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
+        $multiLockHandler1 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
+        $multiLockHandler2 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
 
         $this->assertTrue($multiLockHandler1->lock());
         $this->assertFalse($multiLockHandler2->lock());
@@ -51,9 +51,9 @@ class MultiLockHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLockDifferentSameResource()
     {
-        $multiLockHandler1 = $this->multiLockHandlerFactory->getMultiLockHandler(['resource1', 'resource2', 'resource3'], 10);
-        $multiLockHandler2 = $this->multiLockHandlerFactory->getMultiLockHandler(['resource4', 'resource5', 'resource6'], 10);
-        $multiLockHandler3 = $this->multiLockHandlerFactory->getMultiLockHandler(['resource7', 'resource8'], 10);
+        $multiLockHandler1 = $this->multiLockHandlerFactory->createMultiLockHandler(['resource1', 'resource2', 'resource3'], 10);
+        $multiLockHandler2 = $this->multiLockHandlerFactory->createMultiLockHandler(['resource4', 'resource5', 'resource6'], 10);
+        $multiLockHandler3 = $this->multiLockHandlerFactory->createMultiLockHandler(['resource7', 'resource8'], 10);
 
         $this->assertTrue($multiLockHandler1->lock());
         $this->assertTrue($multiLockHandler2->lock());
@@ -70,10 +70,10 @@ class MultiLockHandlerTest extends \PHPUnit_Framework_TestCase
     public function testRenew()
     {
         $resources = ['resource1', 'resource2'];
-        $multiLockHandler1 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
-        $multiLockHandler2 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
-        $multiLockHandler3 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
-        $multiLockHandler4 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
+        $multiLockHandler1 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
+        $multiLockHandler2 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
+        $multiLockHandler3 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
+        $multiLockHandler4 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
 
         $this->assertTrue($multiLockHandler1->lock());
         $this->assertFalse($multiLockHandler2->lock());
@@ -106,7 +106,7 @@ class MultiLockHandlerTest extends \PHPUnit_Framework_TestCase
     public function testRenewExpiredSession()
     {
         $resources = ['resource1', 'resource2'];
-        $multiLockHandler = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
+        $multiLockHandler = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
         $this->assertTrue($multiLockHandler->lock());
         sleep(21);
         $multiLockHandler->renew();
@@ -119,8 +119,8 @@ class MultiLockHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $resources = ['resource1', 'resource2'];
 
-        $multiLockHandler1 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
-        $multiLockHandler2 = $this->multiLockHandlerFactory->getMultiLockHandler($resources, 10);
+        $multiLockHandler1 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
+        $multiLockHandler2 = $this->multiLockHandlerFactory->createMultiLockHandler($resources, 10);
 
         $this->assertTrue($multiLockHandler1->lock());
         $this->assertFalse($multiLockHandler2->lock());

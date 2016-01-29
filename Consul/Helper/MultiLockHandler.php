@@ -7,34 +7,22 @@ use SensioLabs\Consul\Services\Session;
 
 class MultiLockHandler
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $resources;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $ttl;
 
-    /**
-     * @var Session
-     */
+    /** @var Session */
     private $session;
 
-    /**
-     * @var KV
-     */
+    /** @var KV */
     private $kv;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $sessionId;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $lockPath;
 
     /**
@@ -46,6 +34,10 @@ class MultiLockHandler
      */
     public function __construct(array $resources, $ttl, Session $session, KV $kv, $lockPath)
     {
+        if (!is_int($ttl)) {
+            throw new \Exception('Parameter ttl must be integer.');
+        }
+
         $this->resources = $resources;
         $this->ttl = $ttl;
         $this->session = $session;
@@ -68,7 +60,7 @@ class MultiLockHandler
 
         foreach ($this->resources as $resource) {
             // Lock a key / value with the current session
-            $lockAcquired = $this->kv->put($this->lockPath.$resource, (string) '', ['acquire' => $this->sessionId])->json();
+            $lockAcquired = $this->kv->put($this->lockPath.$resource, '', ['acquire' => $this->sessionId])->json();
 
             if (false === $lockAcquired) {
                 $result = false;
@@ -85,9 +77,6 @@ class MultiLockHandler
         return $result;
     }
 
-    /**
-     *
-     */
     public function release()
     {
         $this->releaseResources($this->resources);

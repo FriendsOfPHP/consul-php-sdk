@@ -7,19 +7,13 @@ use SensioLabs\Consul\Services\Session;
 
 class MultiLockHandlerFactory
 {
-    /**
-     * @var Session
-     */
+    /** @var Session */
     private $session;
 
-    /**
-     * @var KV
-     */
+    /** @var KV */
     private $kv;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $lockPath;
 
     /**
@@ -39,7 +33,7 @@ class MultiLockHandlerFactory
      * @param int   $ttl
      * @return MultiLockHandler
      */
-    public function getMultiLockHandler(array $resources, $ttl = 60)
+    public function createMultiLockHandler(array $resources, $ttl = 60)
     {
         return new MultiLockHandler($resources, $ttl, $this->session, $this->kv, $this->lockPath);
     }

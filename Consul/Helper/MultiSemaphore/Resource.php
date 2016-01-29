@@ -4,24 +4,16 @@ namespace SensioLabs\Consul\Helper\MultiSemaphore;
 
 class Resource
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $name;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $acquire = 0;
 
-    /*
-     * @var int
-     */
+    /** @var int */
     public $acquired = 0;
 
-    /*
-     * @var int
-     */
+    /** @var int */
     public $limit = 0;
 
     /**

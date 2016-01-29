@@ -39,13 +39,13 @@ class MultiSemaphoreTest extends \PHPUnit_Framework_TestCase
             new Resource('resource3', 1, 1),
         ];
 
-        $semaphore1 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 60);
+        $semaphore1 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 60);
         static::assertTrue($semaphore1->acquire());
 
-        $semaphore2 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 60);
+        $semaphore2 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 60);
         static::assertFalse($semaphore2->acquire());
 
-        $semaphore3 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 60);
+        $semaphore3 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 60);
         static::assertFalse($semaphore3->acquire());
 
         $semaphore1->release();
@@ -56,10 +56,10 @@ class MultiSemaphoreTest extends \PHPUnit_Framework_TestCase
             new Resource('resource2', 3, 6),
         ];
 
-        $semaphore4 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 60);
+        $semaphore4 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 60);
         static::assertTrue($semaphore4->acquire());
 
-        $semaphore5 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 60);
+        $semaphore5 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 60);
         static::assertFalse($semaphore5->acquire());
 
         $semaphore3->release();
@@ -76,10 +76,10 @@ class MultiSemaphoreTest extends \PHPUnit_Framework_TestCase
             new Resource('resource2', 6, 6),
         ];
 
-        $semaphore1 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 15);
+        $semaphore1 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 15);
         static::assertTrue($semaphore1->acquire());
 
-        $semaphore2 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 15);
+        $semaphore2 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 15);
         static::assertFalse($semaphore2->acquire());
 
         sleep(45);
@@ -100,8 +100,8 @@ class MultiSemaphoreTest extends \PHPUnit_Framework_TestCase
             new Resource('resource2', 2, 6),
         ];
 
-        $semaphore1 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 15);
-        $semaphore2 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 15);
+        $semaphore1 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 15);
+        $semaphore2 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 15);
 
         static::assertTrue($semaphore1->acquire());
         static::assertFalse($semaphore2->acquire());
@@ -126,7 +126,7 @@ class MultiSemaphoreTest extends \PHPUnit_Framework_TestCase
             new Resource('resource11', 7, 7),
         ];
 
-        $semaphore1 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 15);
+        $semaphore1 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 15);
         $semaphore1->acquire();
         $semaphore1->acquire();
     }
@@ -140,7 +140,7 @@ class MultiSemaphoreTest extends \PHPUnit_Framework_TestCase
             new Resource('resource12', 7, 7),
         ];
 
-        $semaphore1 = $this->multiSemaphoreFactory->getMultiSemaphore($resources, 15);
+        $semaphore1 = $this->multiSemaphoreFactory->createMultiSemaphore($resources, 15);
         $semaphore1->release();
         $semaphore1->release();
 

@@ -8,19 +8,13 @@ use SensioLabs\Consul\Helper\MultiSemaphore\Resource;
 
 class MultiSemaphoreFactory
 {
-    /**
-     * @var Session
-     */
+    /** @var Session */
     private $session;
 
-    /**
-     * @var KV
-     */
+    /** @var KV */
     private $kv;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $keyPrefix;
 
     /**
@@ -40,11 +34,11 @@ class MultiSemaphoreFactory
      * @param int        $ttl
      * @return MultiSemaphoreInterface
      */
-    public function getMultiSemaphore(array $resources, $ttl = 60)
+    public function createMultiSemaphore(array $resources, $ttl = 60)
     {
         $result = null;
 
-        if (empty($resources)) {
+        if (!$resources) {
             $result = new MultiSemaphoreNull();
         } else {
             $result = new MultiSemaphore($resources, $ttl, $this->session, $this->kv, $this->keyPrefix);

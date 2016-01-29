@@ -8,39 +8,25 @@ use SensioLabs\Consul\Helper\MultiSemaphore\Resource;
 
 class MultiSemaphore implements MultiSemaphoreInterface
 {
-    /**
-     * @var Session
-     */
+    /** @var Session */
     private $session;
 
-    /**
-     * @var KV
-     */
+    /** @var KV */
     private $kv;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $sessionId;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $resources;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $keyPrefix;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     private $ttl;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $metaDataKey = '.semaphore';
 
     /**
@@ -52,6 +38,10 @@ class MultiSemaphore implements MultiSemaphoreInterface
      */
     public function __construct(array $resources, $ttl, Session $session, KV $kv, $keyPrefix)
     {
+        if (!is_int($ttl)) {
+            throw new \Exception('Parameter ttl must be integer.');
+        }
+
         $this->resources = $resources;
         $this->ttl = $ttl;
         $this->session = $session;
@@ -94,7 +84,7 @@ class MultiSemaphore implements MultiSemaphoreInterface
                     'sessions' => [],
                 ];
 
-                //get actuall metadata
+                // get actuall metadata
                 $semaphorDataItems = $this->kv->get($this->getResourceKeyPrefix($resource), ['recurse' => true])->json();
                 foreach ($semaphorDataItems as $key => $item) {
                     if ($item['Key'] == $this->getResourceKey($resource, $this->metaDataKey)) {
@@ -105,7 +95,7 @@ class MultiSemaphore implements MultiSemaphoreInterface
                     }
                 }
 
-                //build new metadata
+                // build new metadata
                 if (isset($semaphoreMetaDataActual)) {
                     foreach ($semaphorDataItems as $item) {
                         if (isset($item['Session'])) {
@@ -120,7 +110,7 @@ class MultiSemaphore implements MultiSemaphoreInterface
 
                 $resource->acquired = min($resource->acquire, ($semaphoreMetaDataValue['limit'] - array_sum($semaphoreMetaDataValue['sessions'])));
 
-                //add new elemet to metadata and save it
+                // add new elemet to metadata and save it
                 if ($resource->acquired) {
                     $semaphoreMetaDataValue['sessions'][$this->sessionId] = $resource->acquired;
                     $result = $this->kv->put(
