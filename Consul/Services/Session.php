@@ -60,22 +60,12 @@ class Session
         return $this->client->get('/v1/session/list', $params);
     }
 
-    public function put($key, $value, array $options = array())
+    public function renew($sessionId, array $options = array())
     {
         $params = array(
-            'body' => $value,
-            'query' => OptionsResolver::resolve($options, array('dc', 'flags', 'cas', 'acquire', 'release')),
+            'query' => OptionsResolver::resolve($options, array('dc')),
         );
 
-        return $this->client->put('v1/kv/'.$key, $params);
-    }
-
-    public function delete($key, array $options = array())
-    {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc', 'recurse')),
-        );
-
-        return $this->client->put('v1/kv/'.$key, $params);
+        return $this->client->put('/v1/session/renew/'.$sessionId, $params);
     }
 }
