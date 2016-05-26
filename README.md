@@ -1,6 +1,16 @@
 Consul SDK
 ==========
 
+Compatibility
+-------------
+
+This table shows this SDK compatibility regarding Guzzle version:
+
+| SDK Version | Guzzle Version
+| ----------- | --------------
+| 1.x         | >=4, <6
+| 2.x         | 6
+
 Installation
 ------------
 
