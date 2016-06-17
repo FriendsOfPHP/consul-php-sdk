@@ -92,7 +92,7 @@ class Client
         }
 
 
-        return new ConsulResponse($response->getHeaders(), $response->getBody()->getContents());
+        return new ConsulResponse($response->getHeaders(), (string)$response->getBody());
     }
 
     private function formatResponse(Response $response)
