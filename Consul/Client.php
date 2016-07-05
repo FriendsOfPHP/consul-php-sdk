@@ -18,7 +18,7 @@ class Client
     public function __construct(array $options = array(), LoggerInterface $logger = null, GuzzleClient $client = null)
     {
         $options = array_replace(array(
-            'base_url' => 'http://127.0.0.1:8500',
+            'base_uri' => 'http://127.0.0.1:8500',
             'http_errors' => false,
         ), $options);
 
@@ -63,6 +63,10 @@ class Client
 
     private function doRequest($method, $url, $options)
     {
+        if (isset($options['body']) && is_array($options['body'])) {
+            $options['body'] = json_encode($options['body']);
+        }
+
         $this->logger->info(sprintf('%s "%s"', $method, $url));
         $this->logger->debug(sprintf("Requesting %s %s", $method, $url), array('options' => $options));
 
@@ -83,7 +87,7 @@ class Client
 
             $this->logger->error($message);
 
-            $message .= "\n$response";
+            $message .= "\n" . (string)$response->getBody();
             if (500 <= $response->getStatusCode()) {
                 throw new ServerException($message);
             }
@@ -91,8 +95,7 @@ class Client
             throw new ClientException($message);
         }
 
-
-        return new ConsulResponse($response->getHeaders(), $response->getBody()->getContents());
+        return new ConsulResponse($response->getHeaders(), (string)$response->getBody());
     }
 
     private function formatResponse(Response $response)
