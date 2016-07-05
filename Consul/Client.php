@@ -87,7 +87,7 @@ class Client
 
             $this->logger->error($message);
 
-            $message .= "\n$response";
+            $message .= "\n" . (string)$response->getBody();
             if (500 <= $response->getStatusCode()) {
                 throw new ServerException($message);
             }
