@@ -63,6 +63,10 @@ class Client
 
     private function doRequest($method, $url, $options)
     {
+        if (isset($options['body']) && is_array($options['body'])) {
+            $options['body'] = json_encode($options['body']);
+        }
+
         $this->logger->info(sprintf('%s "%s"', $method, $url));
         $this->logger->debug(sprintf("Requesting %s %s", $method, $url), array('options' => $options));
 
