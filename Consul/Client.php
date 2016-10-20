@@ -89,10 +89,10 @@ class Client
 
             $message .= "\n" . (string)$response->getBody();
             if (500 <= $response->getStatusCode()) {
-                throw new ServerException($message);
+                throw new ServerException($message, $response->getStatusCode());
             }
 
-            throw new ClientException($message);
+            throw new ClientException($message, $response->getStatusCode());
         }
 
         return new ConsulResponse($response->getHeaders(), (string)$response->getBody());
