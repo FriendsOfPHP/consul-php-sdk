@@ -95,7 +95,7 @@ class Client
             throw new ClientException($message, $response->getStatusCode());
         }
 
-        return new ConsulResponse($response->getHeaders(), (string)$response->getBody());
+        return new ConsulResponse($response->getHeaders(), (string)$response->getBody(), $response->getStatusCode());
     }
 
     private function formatResponse(Response $response)
