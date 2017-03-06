@@ -68,7 +68,7 @@ class Client
         }
 
         $this->logger->info(sprintf('%s "%s"', $method, $url));
-        $this->logger->debug(sprintf("Requesting %s %s", $method, $url), array('options' => $options));
+        $this->logger->debug(sprintf('Requesting %s %s', $method, $url), array('options' => $options));
 
         try {
             $response = $this->client->request($method, $url, $options);
@@ -87,7 +87,7 @@ class Client
 
             $this->logger->error($message);
 
-            $message .= "\n" . (string)$response->getBody();
+            $message .= "\n".(string) $response->getBody();
             if (500 <= $response->getStatusCode()) {
                 throw new ServerException($message, $response->getStatusCode());
             }
@@ -95,7 +95,7 @@ class Client
             throw new ClientException($message, $response->getStatusCode());
         }
 
-        return new ConsulResponse($response->getHeaders(), (string)$response->getBody(), $response->getStatusCode());
+        return new ConsulResponse($response->getHeaders(), (string) $response->getBody(), $response->getStatusCode());
     }
 
     private function formatResponse(Response $response)
