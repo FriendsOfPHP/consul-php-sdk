@@ -15,7 +15,7 @@ class OptionsResolverTest extends \PHPUnit_Framework_TestCase
         );
 
         $availableOptions = array(
-            'foo', 'baz'
+            'foo', 'baz',
         );
 
         $result = OptionsResolver::resolve($options, $availableOptions);
@@ -35,7 +35,7 @@ class OptionsResolverTest extends \PHPUnit_Framework_TestCase
         );
 
         $availableOptions = array(
-            'foo', 'baz'
+            'foo', 'baz',
         );
 
         $result = OptionsResolver::resolve($options, $availableOptions);
