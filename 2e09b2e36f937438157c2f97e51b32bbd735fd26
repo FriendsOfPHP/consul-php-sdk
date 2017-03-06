@@ -1,0 +1,25 @@
+---------------------------------------------------------------------------
+
+by lyrixx at 2016-10-21T12:49:49Z
+
+Unfortunately, this PR is a BC break. You can add the status as an third / optionnel  argument.
+
+---------------------------------------------------------------------------
+
+by Gufran at 2016-10-21T13:16:30Z
+
+@lyrixx Done
+
+---------------------------------------------------------------------------
+
+by Gufran at 2016-10-21T13:34:06Z
+
+@fabpot Renamed the method to `getStatusCode()`
+
+---------------------------------------------------------------------------
+
+by splitice at 2017-02-27T10:50:25Z
+
+I have to agree this is a pretty major problem. We've had a few problems in testing our locking abstraction and have been forced to resort to strpos on the exception messages...
+
+Unfortunately it would have BC implementations but IMHO ->get should return null if not found (404). Exceptions should be for exceptional situations.
