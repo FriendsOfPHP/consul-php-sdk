@@ -65,6 +65,7 @@ So if you want to acquire an exclusive lock:
     $kv->delete('tests/session/a-lock');
     $session->destroy($sessionId);
 
+
 Available services
 ------------------
 
@@ -78,3 +79,48 @@ Some utilities
 --------------
 
 * Lock handler: Simple class that implement a distributed lock
+
+The LockHandler helper assists with acquiring advisory exclusive locks. As long as the same key is used across threads 
+exclusivity is maintained. Be aware that there is nothing preventing other processes that are not using the LockHandler 
+from updating the key/value directly through the KV service, the lock relies upon well behaved clients co-operating. 
+
+    $lockHandler = new SensioLabs\Consul\Helper\LockHandler(
+        'tests/session/a-lock',
+        'locked value',
+    );
+    
+    // The helper caters for ephemeral or permanent keys to hold the lock.
+    // Setting this to false will cause the key/value to remain in the store after the lock is released.
+    // Default is for the key/value to be deleted from the store on release/invalidation.  
+    $lockHandler->setEphemeral(false); 
+    
+    if(false === $lockHandler->lock()) {
+        echo "The lock is already acquired by another node.\n";
+        exit(1);
+    }
+    
+    echo "Do your jobs here....";
+    sleep(5);
+    echo "End\n";    
+
+    // Optionally release the lock. Releasing the lock is also handled by a registered shutdown function so there is 
+    // no need to explicitly call unless the release is required before the end of execution. 
+    // For permanent keys an optional new value can be specified on release 
+    $lockHandler->release('this is now released');
+
+Blocking locks are also available
+
+    $lockHandler = new SensioLabs\Consul\Helper\LockHandler(
+        'tests/session/a-blocking-lock',
+        'locked value',
+    );
+    
+    // Wait for up to 60 seconds to get the lock on the specified key. 
+    if(false === $lockHandler->lock(60)) {
+        echo "The lock is already acquired by another node.\n";
+        exit(1);
+    }
+    
+    echo "Do your jobs here....";
+    sleep(5);
+    echo "End\n";    
