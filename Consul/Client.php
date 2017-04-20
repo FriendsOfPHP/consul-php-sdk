@@ -17,15 +17,16 @@ class Client
 
     public function __construct(array $options = array(), LoggerInterface $logger = null, GuzzleClient $client = null)
     {
-        $base_uri = 'http://127.0.0.1:8500';
+        $baseUri = 'http://127.0.0.1:8500';
 
         if (isset($options['base_uri'])) {
-            $base_uri = $options['base_uri'];
+            $baseUri = $options['base_uri'];
         } else if (getenv('CONSUL_HTTP_ADDR') !== false) {
-            $base_uri = getenv('CONSUL_HTTP_ADDR');
+            $baseUri = getenv('CONSUL_HTTP_ADDR');
         }
+
         $options = array_replace(array(
-            'base_uri' => $base_uri,
+            'base_uri' => $baseUri,
             'http_errors' => false,
         ), $options);
 
