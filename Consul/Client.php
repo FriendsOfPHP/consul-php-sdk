@@ -24,6 +24,8 @@ class Client
         } else if (getenv('CONSUL_HTTP_ADDR') !== false) {
             $baseUri = getenv('CONSUL_HTTP_ADDR');
         }
+        
+        if (!strpos($baseUri,"http://")) $baseUri = "http://" . $baseUri;
 
         $options = array_replace(array(
             'base_uri' => $baseUri,
