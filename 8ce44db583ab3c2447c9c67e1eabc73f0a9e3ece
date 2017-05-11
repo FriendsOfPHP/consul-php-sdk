@@ -1,0 +1,5 @@
+---------------------------------------------------------------------------
+
+by stevenscg at 2017-04-28T14:06:07Z
+
+LGTM! The Consul docs and team encourage clients to support CONSUL_HTTP_ADDR.
