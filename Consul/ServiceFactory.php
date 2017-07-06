@@ -4,15 +4,32 @@ namespace SensioLabs\Consul;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Log\LoggerInterface;
+use SensioLabs\Consul\Services\Agent;
+use SensioLabs\Consul\Services\AgentInterface;
+use SensioLabs\Consul\Services\Catalog;
+use SensioLabs\Consul\Services\CatalogInterface;
+use SensioLabs\Consul\Services\Health;
+use SensioLabs\Consul\Services\HealthInterface;
+use SensioLabs\Consul\Services\KV;
+use SensioLabs\Consul\Services\KVInterface;
+use SensioLabs\Consul\Services\Session;
+use SensioLabs\Consul\Services\SessionInterface;
 
-class ServiceFactory
+final class ServiceFactory
 {
     private static $services = array(
-        'agent' => 'SensioLabs\Consul\Services\Agent',
-        'catalog' => 'SensioLabs\Consul\Services\Catalog',
-        'health' => 'SensioLabs\Consul\Services\Health',
-        'kv' => 'SensioLabs\Consul\Services\KV',
-        'session' => 'SensioLabs\Consul\Services\Session',
+        AgentInterface::class => Agent::class,
+        CatalogInterface::class => Catalog::class,
+        HealthInterface::class => Health::class,
+        SessionInterface::class => Session::class,
+        KVInterface::class => KV::class,
+
+        // for backward compatibility:
+        AgentInterface::SERVICE_NAME => Agent::class,
+        CatalogInterface::SERVICE_NAME => Catalog::class,
+        HealthInterface::SERVICE_NAME => Health::class,
+        SessionInterface::SERVICE_NAME => Session::class,
+        KVInterface::SERVICE_NAME => KV::class,
     );
 
     private $client;

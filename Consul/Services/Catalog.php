@@ -5,7 +5,7 @@ namespace SensioLabs\Consul\Services;
 use SensioLabs\Consul\Client;
 use SensioLabs\Consul\OptionsResolver;
 
-class Catalog
+final class Catalog implements CatalogInterface
 {
     private $client;
 
