@@ -5,7 +5,7 @@ namespace SensioLabs\Consul\Helper;
 use SensioLabs\Consul\Services\KV;
 use SensioLabs\Consul\Services\Session;
 
-class LockHandler
+final class LockHandler
 {
     private $key;
     private $value;
