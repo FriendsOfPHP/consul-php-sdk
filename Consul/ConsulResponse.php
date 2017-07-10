@@ -2,7 +2,7 @@
 
 namespace SensioLabs\Consul;
 
-class ConsulResponse
+final class ConsulResponse
 {
     private $headers;
     private $body;

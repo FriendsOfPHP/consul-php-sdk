@@ -5,7 +5,7 @@ namespace SensioLabs\Consul\Services;
 use SensioLabs\Consul\Client;
 use SensioLabs\Consul\OptionsResolver;
 
-class KV
+final class KV implements KVInterface
 {
     private $client;
 

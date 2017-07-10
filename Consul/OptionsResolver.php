@@ -2,7 +2,7 @@
 
 namespace SensioLabs\Consul;
 
-class OptionsResolver
+final class OptionsResolver
 {
     public static function resolve(array $options, array $availableOptions)
     {
