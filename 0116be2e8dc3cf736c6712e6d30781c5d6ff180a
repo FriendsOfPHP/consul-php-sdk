@@ -1,0 +1,37 @@
+---------------------------------------------------------------------------
+
+by artospaj at 2017-07-10T15:40:33Z
+
+@lyrixx All that I've done started from requirement to pass Guzzle HTTP Client instance to `Sensiolabs\Consul\Client` constructur. It was much easier for me just to mock HTTP response in order to test my consul-based functionality, so I replaced Guzzle instance requirement to HttpClientInterface.
+
+I created class that used `Sensiolabs\Consul\Service\KV`, which I also wanted to test - so I created another interface.
+
+Obviously, I could just mock the service itself while it's not declared `final`, but I believe that giving some abstraction in library code is much more clear and elegant.
+
+BTW. In further steps I'd like to introduce even more abstraction (see: https://github.com/php-http/httplug), as requirement of fixed version of Guzzle could lead to Composer conflicts if one is already using other version.
+
+---------------------------------------------------------------------------
+
+by lyrixx at 2017-07-10T16:36:02Z
+
+LGTM
+
+---------------------------------------------------------------------------
+
+by artospaj at 2017-07-11T09:00:10Z
+
+@lyrixx what that actually means? Pull request is still in "open" state.
+
+---------------------------------------------------------------------------
+
+by lyrixx at 2017-07-11T09:14:14Z
+
+It mean: "Looks good to me".
+I keep this PR open a bit, if someone wants to review it too.
+Then in few days I will merge it.
+
+---------------------------------------------------------------------------
+
+by artospaj at 2017-07-25T10:55:07Z
+
+@lyrixx can I ask you to merge & deploy new version of lib?
