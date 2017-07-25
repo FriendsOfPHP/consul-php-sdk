@@ -3,6 +3,7 @@
 namespace SensioLabs\Consul;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
@@ -10,12 +11,14 @@ use Psr\Log\NullLogger;
 use SensioLabs\Consul\Exception\ClientException;
 use SensioLabs\Consul\Exception\ServerException;
 
-class Client
+final class Client implements ClientInterface
 {
+    /** @var ClientInterface */
     private $client;
+    /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(array $options = array(), LoggerInterface $logger = null, GuzzleClient $client = null)
+    public function __construct(array $options = array(), LoggerInterface $logger = null, HttpClientInterface $client = null)
     {
         $baseUri = 'http://127.0.0.1:8500';
 
