@@ -30,7 +30,7 @@ $sf = new SensioLabs\Consul\ServiceFactory();
 Then, a service could be retrieve from this factory:
 
 ```php
-$kv = $sf->get('kv');
+$kv = $sf->get(\SensioLabs\Consul\Services\KVInterface::class);
 ```
 
 Then, a service expose few methods mapped from the consul [API](https://consul.io/docs/agent/http.html):
