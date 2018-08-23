@@ -3,6 +3,7 @@
 namespace SensioLabs\Consul\Tests\Services;
 
 use GuzzleHttp\Message\ResponseInterface;
+use SensioLabs\Consul\ConsulResponse;
 use SensioLabs\Consul\Exception\ClientException;
 use SensioLabs\Consul\Services\KV;
 
@@ -27,7 +28,7 @@ class KVTest extends AbstractTest
         $this->kv->put('test/my/key', $value);
 
         $response = $this->kv->get('test/my/key');
-        $this->assertInstanceOf('GuzzleHttp\Message\ResponseInterface', $response);
+        $this->assertInstanceOf(ConsulResponse::class, $response);
 
         $json = $response->json();
         $this->assertSame($value, base64_decode($json[0]['Value']));
@@ -39,7 +40,7 @@ class KVTest extends AbstractTest
         $this->kv->put('test/my/key', $value);
 
         $response = $this->kv->get('test/my/key', array('raw' => true));
-        $this->assertInstanceOf('GuzzleHttp\Message\ResponseInterface', $response);
+        $this->assertInstanceOf(ConsulResponse::class, $response);
 
         $body = (string) $response->getBody();
         $this->assertSame($value, $body);
@@ -51,7 +52,7 @@ class KVTest extends AbstractTest
         $this->kv->put('test/my/key', 'hello', array('flags' => $flags));
 
         $response = $this->kv->get('test/my/key');
-        $this->assertInstanceOf('GuzzleHttp\Message\ResponseInterface', $response);
+        $this->assertInstanceOf(ConsulResponse::class, $response);
 
         $json = $response->json();
         $this->assertSame($flags, $json[0]['Flags']);
@@ -64,7 +65,7 @@ class KVTest extends AbstractTest
         $this->kv->put('test/my/key3', 'hello 3');
 
         $response = $this->kv->get('test/my', array('keys' => true));
-        $this->assertInstanceOf('GuzzleHttp\Message\ResponseInterface', $response);
+        $this->assertInstanceOf(ConsulResponse::class, $response);
 
         $json = $response->json();
         $this->assertSame(array('test/my/key1', 'test/my/key2', 'test/my/key3'), $json);
