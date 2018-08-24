@@ -26,7 +26,7 @@ final class KV implements KVInterface
     public function put($key, $value, array $options = array())
     {
         $params = array(
-            'body' => $value,
+            'body' => (string) $value,
             'query' => OptionsResolver::resolve($options, array('dc', 'flags', 'cas', 'acquire', 'release')),
         );
 
