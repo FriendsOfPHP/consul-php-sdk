@@ -29,7 +29,7 @@ final class Catalog implements CatalogInterface
             'body' => (string) $node,
         );
 
-        return $this->client->get('/v1/catalog/deregister', $params);
+        return $this->client->put('/v1/catalog/deregister', $params);
     }
 
     public function datacenters()
