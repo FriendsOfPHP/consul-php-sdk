@@ -17,7 +17,7 @@ final class KV implements KVInterface
     public function get($key, array $options = array())
     {
         $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc', 'recurse', 'keys', 'separator', 'raw')),
+            'query' => OptionsResolver::resolve($options, array('dc', 'recurse', 'keys', 'separator', 'raw', 'stale', 'consistent', 'default')),
         );
 
         return $this->client->get('v1/kv/'.$key, $params);
