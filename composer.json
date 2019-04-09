@@ -23,6 +23,9 @@
             "dev-master": "2.0-dev"
         }
     },
+    "archive": {
+      "exclude": ["bin/"]
+    },
     "require-dev": {
         "symfony/process": "~2.5",
         "symfony/filesystem": "~2.5",
