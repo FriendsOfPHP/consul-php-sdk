@@ -1,0 +1,18 @@
+---------------------------------------------------------------------------
+
+by lyrixx at 2019-04-11T09:00:16Z
+
+Did you ever see the binary in an archive?
+
+---------------------------------------------------------------------------
+
+by jsol at 2019-04-11T11:22:28Z
+
+Yes, after running
+composer.phar require sensiolabs/consul-php-sdk
+
+a du -h has the following output
+
+131M	./vendor/sensiolabs/consul-php-sdk/bin
+
+I am not sure exactly how the project is distributed, but running composer.phar archive with my patch does exclude the bin folder.
