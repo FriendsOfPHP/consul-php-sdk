@@ -18,7 +18,7 @@ final class Session implements SessionInterface
     {
         $params = array(
             'body' => $body,
-            'query' => OptionsResolver::resolve($options, array('dc')),
+            'query' => OptionsResolver::resolve($options, array('dc', 'ns', 'Behavior', 'Checks', 'LockDelay', 'Name', 'Node', 'TTL')),
         );
 
         return $this->client->put('/v1/session/create', $params);
@@ -27,7 +27,7 @@ final class Session implements SessionInterface
     public function destroy($sessionId, array $options = array())
     {
         $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
+            'query' => OptionsResolver::resolve($options, array('dc', 'ns')),
         );
 
         return $this->client->put('/v1/session/destroy/'.$sessionId, $params);
@@ -36,7 +36,7 @@ final class Session implements SessionInterface
     public function info($sessionId, array $options = array())
     {
         $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
+            'query' => OptionsResolver::resolve($options, array('dc', 'ns')),
         );
 
         return $this->client->get('/v1/session/info/'.$sessionId, $params);
@@ -45,7 +45,7 @@ final class Session implements SessionInterface
     public function node($node, array $options = array())
     {
         $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
+            'query' => OptionsResolver::resolve($options, array('dc', 'node', 'ns')),
         );
 
         return $this->client->get('/v1/session/node/'.$node, $params);
@@ -54,7 +54,7 @@ final class Session implements SessionInterface
     public function all(array $options = array())
     {
         $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
+            'query' => OptionsResolver::resolve($options, array('dc', 'node', 'ns')),
         );
 
         return $this->client->get('/v1/session/list', $params);
@@ -63,7 +63,7 @@ final class Session implements SessionInterface
     public function renew($sessionId, array $options = array())
     {
         $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
+            'query' => OptionsResolver::resolve($options, array('dc', 'ns')),
         );
 
         return $this->client->put('/v1/session/renew/'.$sessionId, $params);
