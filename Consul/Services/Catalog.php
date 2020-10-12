@@ -20,7 +20,7 @@ final class Catalog implements CatalogInterface
             'body' => (string) $node,
         );
 
-        return $this->client->get('/v1/catalog/register', $params);
+        return $this->client->put('/v1/catalog/register', $params);
     }
 
     public function deregister($node)
