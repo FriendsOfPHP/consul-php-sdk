@@ -2,9 +2,7 @@
 
 namespace SensioLabs\Consul\Tests\Services;
 
-use GuzzleHttp\Message\ResponseInterface;
 use SensioLabs\Consul\ConsulResponse;
-use SensioLabs\Consul\Exception\ClientException;
 use SensioLabs\Consul\Services\KV;
 
 class KVTest extends AbstractTest
@@ -82,7 +80,7 @@ class KVTest extends AbstractTest
             $this->fail('fail because the key does not exist anymore.');
         } catch (\Exception $e) {
             $this->assertInstanceOf('SensioLabs\Consul\Exception\ClientException', $e);
-            $this->assertContains('404 - Not Found', $e->getMessage());
+            $this->assertContains('404', $e->getMessage());
         }
     }
 
@@ -104,7 +102,7 @@ class KVTest extends AbstractTest
                 $this->fail('fail because the key does not exist anymore.');
             } catch (\Exception $e) {
                 $this->assertInstanceOf('SensioLabs\Consul\Exception\ClientException', $e);
-                $this->assertContains('404 - Not Found', $e->getMessage());
+                $this->assertContains('404', $e->getMessage());
             }
         }
     }
