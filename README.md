@@ -8,9 +8,10 @@ This table shows this SDK compatibility regarding supported Guzzle/Symfony http 
 
 | SDK Version | Guzzle Version | Symfony HTTP Client |
 | ----------- | -------------- | ------------------- |
-| 1.x         | >=4, <6        | N/A                 | 
+| 1.x         | >=4, <6        | N/A                 |
 | 2.x         | 6              | N/A                 |
-| 3.x         | N/A            | 5                   |
+| 3.x         | 6              | N/A                 |
+| 4.x         | N/A            | 5                   |
 
 Installation
 ------------
