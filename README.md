@@ -4,12 +4,13 @@ Consul SDK
 Compatibility
 -------------
 
-This table shows this SDK compatibility regarding Guzzle version:
+This table shows this SDK compatibility regarding supported Guzzle/Symfony http client versions:
 
-| SDK Version | Guzzle Version
-| ----------- | --------------
-| 1.x         | >=4, <6
-| 2.x         | 6
+| SDK Version | Guzzle Version | Symfony HTTP Client |
+| ----------- | -------------- | ------------------- |
+| 1.x         | >=4, <6        | N/A                 | 
+| 2.x         | 6              | N/A                 |
+| 3.x         | N/A            | 5                   |
 
 Installation
 ------------
@@ -49,7 +50,7 @@ $response = $service->method($mandatoryArgument, $someOptions);
 
 * All API mandatory arguments are placed as first;
 * All API optional arguments are directly mapped from `$someOptions`;
-* All methods return raw guzzle response.
+* All methods return a raw http client response.
 
 So if you want to acquire an exclusive lock:
 

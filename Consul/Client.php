@@ -2,14 +2,14 @@
 
 namespace SensioLabs\Consul;
 
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\ClientInterface as HttpClientInterface;
-use GuzzleHttp\Exception\TransferException;
-use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use SensioLabs\Consul\Exception\ClientException;
 use SensioLabs\Consul\Exception\ServerException;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class Client implements ClientInterface
 {
@@ -30,10 +30,9 @@ final class Client implements ClientInterface
 
         $options = array_replace(array(
             'base_uri' => $baseUri,
-            'http_errors' => false,
         ), $options);
 
-        $this->client = $client ?: new GuzzleClient($options);
+        $this->client = $client ?: HttpClient::create($options);
         $this->logger = $logger ?: new NullLogger();
     }
 
@@ -83,7 +82,7 @@ final class Client implements ClientInterface
 
         try {
             $response = $this->client->request($method, $url, $options);
-        } catch (TransferException $e) {
+        } catch (TransportExceptionInterface $e) {
             $message = sprintf('Something went wrong when calling consul (%s).', $e->getMessage());
 
             $this->logger->error($message);
@@ -94,11 +93,11 @@ final class Client implements ClientInterface
         $this->logger->debug(sprintf("Response:\n%s", $this->formatResponse($response)));
 
         if (400 <= $response->getStatusCode()) {
-            $message = sprintf('Something went wrong when calling consul (%s - %s).', $response->getStatusCode(), $response->getReasonPhrase());
+            $message = sprintf('Something went wrong when calling consul (%s).', $response->getStatusCode());
 
             $this->logger->error($message);
 
-            $message .= "\n".(string) $response->getBody();
+            $message .= "\n".(string) $response->getContent(false);
             if (500 <= $response->getStatusCode()) {
                 throw new ServerException($message, $response->getStatusCode());
             }
@@ -106,19 +105,19 @@ final class Client implements ClientInterface
             throw new ClientException($message, $response->getStatusCode());
         }
 
-        return new ConsulResponse($response->getHeaders(), (string) $response->getBody(), $response->getStatusCode());
+        return new ConsulResponse($response->getHeaders(), (string) $response->getContent(), $response->getStatusCode());
     }
 
-    private function formatResponse(Response $response)
+    private function formatResponse(ResponseInterface $response)
     {
         $headers = array();
 
-        foreach ($response->getHeaders() as $key => $values) {
+        foreach ($response->getHeaders(false) as $key => $values) {
             foreach ($values as $value) {
                 $headers[] = sprintf('%s: %s', $key, $value);
             }
         }
 
-        return sprintf("%s\n\n%s", implode("\n", $headers), $response->getBody());
+        return sprintf("%s\n\n%s", implode("\n", $headers), $response->getContent(false));
     }
 }

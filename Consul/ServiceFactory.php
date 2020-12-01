@@ -2,7 +2,6 @@
 
 namespace SensioLabs\Consul;
 
-use GuzzleHttp\Client as GuzzleClient;
 use Psr\Log\LoggerInterface;
 use SensioLabs\Consul\Services\Agent;
 use SensioLabs\Consul\Services\AgentInterface;
@@ -14,6 +13,7 @@ use SensioLabs\Consul\Services\KV;
 use SensioLabs\Consul\Services\KVInterface;
 use SensioLabs\Consul\Services\Session;
 use SensioLabs\Consul\Services\SessionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class ServiceFactory
 {
@@ -34,9 +34,9 @@ final class ServiceFactory
 
     private $client;
 
-    public function __construct(array $options = array(), LoggerInterface $logger = null, GuzzleClient $guzzleClient = null)
+    public function __construct(array $options = array(), LoggerInterface $logger = null, HttpClientInterface $httpClient = null)
     {
-        $this->client = new Client($options, $logger, $guzzleClient);
+        $this->client = new Client($options, $logger, $httpClient);
     }
 
     public function get($service)
