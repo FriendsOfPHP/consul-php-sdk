@@ -84,6 +84,7 @@ Available services
 * catalog
 * health
 * kv
+* txn
 * session
 
 Some utilities
