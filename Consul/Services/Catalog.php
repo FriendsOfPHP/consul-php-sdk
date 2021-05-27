@@ -14,6 +14,11 @@ final class Catalog implements CatalogInterface
         $this->client = $client ?: new Client();
     }
 
+    public function client()
+    {
+        return $this->client;
+    }
+
     public function register($node)
     {
         $params = array(

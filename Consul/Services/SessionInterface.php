@@ -8,6 +8,8 @@ interface SessionInterface
 {
     const SERVICE_NAME = 'session';
 
+    public function client();
+
     public function create($body = null, array $options = array());
 
     public function destroy($sessionId, array $options = array());

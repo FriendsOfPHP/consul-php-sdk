@@ -14,6 +14,11 @@ final class Health implements HealthInterface
         $this->client = $client ?: new Client();
     }
 
+    public function client()
+    {
+        return $this->client;
+    }
+
     public function node($node, array $options = array())
     {
         $params = array(

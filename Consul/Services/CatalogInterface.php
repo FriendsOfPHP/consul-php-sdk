@@ -8,6 +8,8 @@ interface CatalogInterface
 {
     const SERVICE_NAME = 'catalog';
 
+    public function client();
+
     public function register($node);
 
     public function deregister($node);

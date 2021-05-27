@@ -8,6 +8,8 @@ interface HealthInterface
 {
     const SERVICE_NAME = 'health';
 
+    public function client();
+
     public function node($node, array $options = array());
 
     public function checks($service, array $options = array());

@@ -14,6 +14,11 @@ final class Session implements SessionInterface
         $this->client = $client ?: new Client();
     }
 
+    public function client()
+    {
+        return $this->client;
+    }
+
     public function create($body = null, array $options = array())
     {
         $params = array(

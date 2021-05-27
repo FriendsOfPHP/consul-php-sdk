@@ -14,6 +14,11 @@ final class KV implements KVInterface
         $this->client = $client ?: new Client();
     }
 
+    public function client()
+    {
+        return $this->client;
+    }
+
     public function get($key, array $options = array())
     {
         $params = array(

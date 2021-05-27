@@ -8,6 +8,8 @@ interface AgentInterface
 {
     const SERVICE_NAME = 'agent';
 
+    public function client();
+
     public function checks();
 
     public function services();
@@ -33,4 +35,6 @@ interface AgentInterface
     public function registerService($service);
 
     public function deregisterService($serviceId);
+
+    public function serviceConfiguration($serviceId);
 }

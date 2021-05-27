@@ -14,6 +14,11 @@ final class Agent implements AgentInterface
         $this->client = $client ?: new Client();
     }
 
+    public function client()
+    {
+        return $this->client;
+    }
+
     public function checks()
     {
         return $this->client->get('/v1/agent/checks');
@@ -106,4 +111,10 @@ final class Agent implements AgentInterface
     {
         return $this->client->put('/v1/agent/service/deregister/'.$serviceId);
     }
+
+    public function serviceConfiguration($serviceId)
+    {
+        return $this->client->get('/v1/agent/service/'.$serviceId);
+    }
+
 }
