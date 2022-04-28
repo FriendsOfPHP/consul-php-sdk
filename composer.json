@@ -12,7 +12,7 @@
     ],
     "require": {
         "psr/log": "~1.0",
-        "symfony/http-client": "^5.1"
+        "symfony/http-client": "^5.1|^6.0"
     },
     "require-dev": {
         "symfony/process": "~2.5",
