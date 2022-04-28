@@ -1,8 +1,6 @@
-Consul SDK
-==========
+# Consul PHP SDK
 
-Compatibility
--------------
+## Compatibility
 
 This table shows this SDK compatibility regarding supported Guzzle/Symfony http client versions:
 
@@ -14,15 +12,14 @@ This table shows this SDK compatibility regarding supported Guzzle/Symfony http 
 | 4.x         | N/A            | 5                   |
 | >=4.2       | N/A            | 5 or 6              |
 
-Installation
-------------
+## Installation
 
 This library can be installed with composer:
 
     composer require sensiolabs/consul-php-sdk
 
-Usage
------
+## Usage
+
 
 The simple way to use this SDK, is to instantiate the service factory:
 
@@ -78,8 +75,8 @@ $kv->delete('tests/session/a-lock');
 $session->destroy($sessionId);
 ```
 
-Available services
-------------------
+## Available services
+
 
 * agent
 * catalog
@@ -88,7 +85,6 @@ Available services
 * txn
 * session
 
-Some utilities
---------------
+## Some utilities
 
 * Lock handler: Simple class that implement a distributed lock
