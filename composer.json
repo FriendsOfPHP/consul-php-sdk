@@ -24,9 +24,6 @@
             "SensioLabs\\Consul\\": "Consul"
         }
     },
-    "archive": {
-      "exclude": ["bin/"]
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "5.x-dev"

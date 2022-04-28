@@ -1,7 +1,0 @@
-{
-    "data_dir": "./data-dir",
-    "server": true,
-    "bootstrap": true,
-    "client_addr": "127.0.0.1",
-    "node_name": "consul-server-tests"
-}
