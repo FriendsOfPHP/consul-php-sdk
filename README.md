@@ -12,6 +12,7 @@ This table shows this SDK compatibility regarding supported Guzzle/Symfony http 
 | 2.x         | 6              | N/A                 |
 | 3.x         | 6              | N/A                 |
 | 4.x         | N/A            | 5                   |
+| >=4.2       | N/A            | 5 or 6              |
 
 Installation
 ------------
