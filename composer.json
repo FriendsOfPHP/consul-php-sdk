@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "psr/log": "~1.0",
+        "psr/log": "^1|^2|^3",
         "symfony/http-client": "^5.1|^6.0"
     },
     "require-dev": {
