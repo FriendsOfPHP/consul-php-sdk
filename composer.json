@@ -11,6 +11,7 @@
         }
     ],
     "require": {
+        "php": "7.4",
         "psr/log": "^1|^2|^3",
         "symfony/http-client": "^5.1|^6.0"
     },

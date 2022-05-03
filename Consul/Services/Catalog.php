@@ -7,7 +7,7 @@ use SensioLabs\Consul\OptionsResolver;
 
 final class Catalog implements CatalogInterface
 {
-    private $client;
+    private Client $client;
 
     public function __construct(Client $client = null)
     {
@@ -16,18 +16,18 @@ final class Catalog implements CatalogInterface
 
     public function register($node)
     {
-        $params = array(
+        $params = [
             'body' => (string) $node,
-        );
+        ];
 
         return $this->client->put('/v1/catalog/register', $params);
     }
 
     public function deregister($node)
     {
-        $params = array(
+        $params = [
             'body' => (string) $node,
-        );
+        ];
 
         return $this->client->put('/v1/catalog/deregister', $params);
     }
@@ -37,38 +37,38 @@ final class Catalog implements CatalogInterface
         return $this->client->get('/v1/catalog/datacenters');
     }
 
-    public function nodes(array $options = array())
+    public function nodes(array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['dc']),
+        ];
 
         return $this->client->get('/v1/catalog/nodes', $params);
     }
 
-    public function node($node, array $options = array())
+    public function node($node, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['dc']),
+        ];
 
         return $this->client->get('/v1/catalog/node/'.$node, $params);
     }
 
-    public function services(array $options = array())
+    public function services(array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['dc']),
+        ];
 
         return $this->client->get('/v1/catalog/services', $params);
     }
 
-    public function service($service, array $options = array())
+    public function service($service, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc', 'tag')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['dc', 'tag']),
+        ];
 
         return $this->client->get('/v1/catalog/service/'.$service, $params);
     }

@@ -17,7 +17,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class ServiceFactory
 {
-    private static $services = array(
+    private static array $services = [
         AgentInterface::class => Agent::class,
         CatalogInterface::class => Catalog::class,
         HealthInterface::class => Health::class,
@@ -30,18 +30,18 @@ final class ServiceFactory
         HealthInterface::SERVICE_NAME => Health::class,
         SessionInterface::SERVICE_NAME => Session::class,
         KVInterface::SERVICE_NAME => KV::class,
-    );
+    ];
 
-    private $client;
+    private Client $client;
 
-    public function __construct(array $options = array(), LoggerInterface $logger = null, HttpClientInterface $httpClient = null)
+    public function __construct(array $options = [], LoggerInterface $logger = null, HttpClientInterface $httpClient = null)
     {
         $this->client = new Client($options, $logger, $httpClient);
     }
 
     public function get($service)
     {
-        if (!array_key_exists($service, self::$services)) {
+        if (!\array_key_exists($service, self::$services)) {
             throw new \InvalidArgumentException(sprintf('The service "%s" is not available. Pick one among "%s".', $service, implode('", "', array_keys(self::$services))));
         }
 

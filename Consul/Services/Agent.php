@@ -7,7 +7,7 @@ use SensioLabs\Consul\OptionsResolver;
 
 final class Agent implements AgentInterface
 {
-    private $client;
+    private Client $client;
 
     public function __construct(Client $client = null)
     {
@@ -24,11 +24,11 @@ final class Agent implements AgentInterface
         return $this->client->get('/v1/agent/services');
     }
 
-    public function members(array $options = array())
+    public function members(array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('wan')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['wan']),
+        ];
 
         return $this->client->get('/v1/agent/members', $params);
     }
@@ -38,11 +38,11 @@ final class Agent implements AgentInterface
         return $this->client->get('/v1/agent/self');
     }
 
-    public function join($address, array $options = array())
+    public function join($address, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('wan')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['wan']),
+        ];
 
         return $this->client->get('/v1/agent/join/'.$address, $params);
     }
@@ -54,9 +54,9 @@ final class Agent implements AgentInterface
 
     public function registerCheck($check)
     {
-        $params = array(
+        $params = [
             'body' => $check,
-        );
+        ];
 
         return $this->client->put('/v1/agent/check/register', $params);
     }
@@ -66,38 +66,38 @@ final class Agent implements AgentInterface
         return $this->client->put('/v1/agent/check/deregister/'.$checkId);
     }
 
-    public function passCheck($checkId, array $options = array())
+    public function passCheck($checkId, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('note')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['note']),
+        ];
 
         return $this->client->put('/v1/agent/check/pass/'.$checkId, $params);
     }
 
-    public function warnCheck($checkId, array $options = array())
+    public function warnCheck($checkId, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('note')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['note']),
+        ];
 
         return $this->client->put('/v1/agent/check/warn/'.$checkId, $params);
     }
 
-    public function failCheck($checkId, array $options = array())
+    public function failCheck($checkId, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('note')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['note']),
+        ];
 
         return $this->client->put('/v1/agent/check/fail/'.$checkId, $params);
     }
 
     public function registerService($service)
     {
-        $params = array(
+        $params = [
             'body' => $service,
-        );
+        ];
 
         return $this->client->put('/v1/agent/service/register', $params);
     }

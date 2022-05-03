@@ -1,14 +1,14 @@
 <?php
 
-
 namespace SensioLabs\Consul\Services;
-
 
 interface KVInterface
 {
-    const SERVICE_NAME = 'kv';
+    public const SERVICE_NAME = 'kv';
 
-    public function get($key, array $options = array());
-    public function put($key, $value, array $options = array());
-    public function delete($key, array $options = array());
+    public function get($key, array $options = []);
+
+    public function put($key, $value, array $options = []);
+
+    public function delete($key, array $options = []);
 }

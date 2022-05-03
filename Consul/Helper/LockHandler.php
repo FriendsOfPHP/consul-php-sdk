@@ -37,7 +37,7 @@ final class LockHandler
             return false;
         }
 
-        register_shutdown_function(array($this, 'release'));
+        register_shutdown_function([$this, 'release']);
 
         return true;
     }

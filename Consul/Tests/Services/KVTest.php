@@ -12,7 +12,7 @@ class KVTest extends AbstractTest
     protected function setUp()
     {
         $this->kv = new KV();
-        $this->kv->delete('test', array('recurse' => true));
+        $this->kv->delete('test', ['recurse' => true]);
     }
 
     protected function tearDown()
@@ -37,7 +37,7 @@ class KVTest extends AbstractTest
         $value = date('r');
         $this->kv->put('test/my/key', $value);
 
-        $response = $this->kv->get('test/my/key', array('raw' => true));
+        $response = $this->kv->get('test/my/key', ['raw' => true]);
         $this->assertInstanceOf(ConsulResponse::class, $response);
 
         $body = (string) $response->getBody();
@@ -46,8 +46,8 @@ class KVTest extends AbstractTest
 
     public function testSetGetWithFlagsOption()
     {
-        $flags = mt_rand();
-        $this->kv->put('test/my/key', 'hello', array('flags' => $flags));
+        $flags = random_int(0, mt_getrandmax());
+        $this->kv->put('test/my/key', 'hello', ['flags' => $flags]);
 
         $response = $this->kv->get('test/my/key');
         $this->assertInstanceOf(ConsulResponse::class, $response);
@@ -62,11 +62,11 @@ class KVTest extends AbstractTest
         $this->kv->put('test/my/key2', 'hello 2');
         $this->kv->put('test/my/key3', 'hello 3');
 
-        $response = $this->kv->get('test/my', array('keys' => true));
+        $response = $this->kv->get('test/my', ['keys' => true]);
         $this->assertInstanceOf(ConsulResponse::class, $response);
 
         $json = $response->json();
-        $this->assertSame(array('test/my/key1', 'test/my/key2', 'test/my/key3'), $json);
+        $this->assertSame(['test/my/key1', 'test/my/key2', 'test/my/key3'], $json);
     }
 
     public function testDeleteWithDefaultOptions()
@@ -94,9 +94,9 @@ class KVTest extends AbstractTest
         $this->kv->get('test/my/key2');
         $this->kv->get('test/my/key3');
 
-        $this->kv->delete('test/my', array('recurse' => true));
+        $this->kv->delete('test/my', ['recurse' => true]);
 
-        for ($i=1; $i < 3; $i++) {
+        for ($i = 1; $i < 3; ++$i) {
             try {
                 $this->kv->get('test/my/key'.$i);
                 $this->fail('fail because the key does not exist anymore.');

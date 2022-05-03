@@ -7,37 +7,37 @@ use SensioLabs\Consul\OptionsResolver;
 
 final class KV implements KVInterface
 {
-    private $client;
+    private Client $client;
 
     public function __construct(Client $client = null)
     {
         $this->client = $client ?: new Client();
     }
 
-    public function get($key, array $options = array())
+    public function get($key, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc', 'recurse', 'keys', 'separator', 'raw', 'stale', 'consistent', 'default')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['dc', 'recurse', 'keys', 'separator', 'raw', 'stale', 'consistent', 'default']),
+        ];
 
         return $this->client->get('v1/kv/'.$key, $params);
     }
 
-    public function put($key, $value, array $options = array())
+    public function put($key, $value, array $options = [])
     {
-        $params = array(
+        $params = [
             'body' => (string) $value,
-            'query' => OptionsResolver::resolve($options, array('dc', 'flags', 'cas', 'acquire', 'release')),
-        );
+            'query' => OptionsResolver::resolve($options, ['dc', 'flags', 'cas', 'acquire', 'release']),
+        ];
 
         return $this->client->put('v1/kv/'.$key, $params);
     }
 
-    public function delete($key, array $options = array())
+    public function delete($key, array $options = [])
     {
-        $params = array(
-            'query' => OptionsResolver::resolve($options, array('dc', 'recurse')),
-        );
+        $params = [
+            'query' => OptionsResolver::resolve($options, ['dc', 'recurse']),
+        ];
 
         return $this->client->delete('v1/kv/'.$key, $params);
     }

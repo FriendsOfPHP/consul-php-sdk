@@ -1,22 +1,20 @@
 <?php
 
-
 namespace SensioLabs\Consul\Services;
-
 
 interface AgentInterface
 {
-    const SERVICE_NAME = 'agent';
+    public const SERVICE_NAME = 'agent';
 
     public function checks();
 
     public function services();
 
-    public function members(array $options = array());
+    public function members(array $options = []);
 
     public function self();
 
-    public function join($address, array $options = array());
+    public function join($address, array $options = []);
 
     public function forceLeave($node);
 
@@ -24,11 +22,11 @@ interface AgentInterface
 
     public function deregisterCheck($checkId);
 
-    public function passCheck($checkId, array $options = array());
+    public function passCheck($checkId, array $options = []);
 
-    public function warnCheck($checkId, array $options = array());
+    public function warnCheck($checkId, array $options = []);
 
-    public function failCheck($checkId, array $options = array());
+    public function failCheck($checkId, array $options = []);
 
     public function registerService($service);
 

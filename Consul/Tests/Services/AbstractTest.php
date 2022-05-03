@@ -12,7 +12,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         static::clean(true);
-        $os = PHP_OS === 'Darwin' ? 'mac' : 'linux';
+        $os = \PHP_OS === 'Darwin' ? 'mac' : 'linux';
         $dir = __DIR__;
         self::$consul = new Process("exec {$dir}/../../../bin/consul/consul_{$os} agent -dev -bind=127.0.0.1");
         self::$consul->start();
@@ -22,7 +22,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
             self::$consul->checkTimeout();
             $output = self::$consul->getOutput();
 
-            if (strpos($output, 'Synced node info') !== false) {
+            if (false !== strpos($output, 'Synced node info')) {
                 break;
             }
         }
@@ -36,7 +36,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
 
     private static function clean($mkdir = false)
     {
-        $dataDir = __DIR__ . '/../../bin/consul/config/data-dir';
+        $dataDir = __DIR__.'/../../bin/consul/config/data-dir';
 
         $fs = new Filesystem();
         $fs->remove($dataDir);

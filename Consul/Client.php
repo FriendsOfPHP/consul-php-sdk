@@ -4,81 +4,79 @@ namespace SensioLabs\Consul;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use SensioLabs\Consul\Exception\ClientException;
+use SensioLabs\Consul\Exception\ServerException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use SensioLabs\Consul\Exception\ClientException;
-use SensioLabs\Consul\Exception\ServerException;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class Client implements ClientInterface
 {
-    /** @var ClientInterface */
-    private $client;
-    /** @var LoggerInterface */
-    private $logger;
+    private HttpClientInterface $client;
+    private LoggerInterface $logger;
 
-    public function __construct(array $options = array(), LoggerInterface $logger = null, HttpClientInterface $client = null)
+    public function __construct(array $options = [], LoggerInterface $logger = null, HttpClientInterface $client = null)
     {
         $baseUri = 'http://127.0.0.1:8500';
 
         if (isset($options['base_uri'])) {
             $baseUri = $options['base_uri'];
-        } else if (getenv('CONSUL_HTTP_ADDR') !== false) {
-            $baseUri = getenv('CONSUL_HTTP_ADDR');
+        } elseif (array_key_exists('CONSUL_HTTP_ADDR', $_SERVER)) {
+            $baseUri = $_SERVER['CONSUL_HTTP_ADDR'];
         }
 
-        $options = array_replace(array(
+        $options = array_replace([
             'base_uri' => $baseUri,
-        ), $options);
+        ], $options);
 
-        $this->client = $client ?: HttpClient::create($options);
-        $this->logger = $logger ?: new NullLogger();
+        $this->client = $client ?? HttpClient::create($options);
+        $this->logger = $logger ?? new NullLogger();
     }
 
-    public function get($url = null, array $options = array())
+    public function get($url = null, array $options = []): ConsulResponse
     {
         return $this->doRequest('GET', $url, $options);
     }
 
-    public function head($url, array $options = array())
+    public function head($url, array $options = []): ConsulResponse
     {
         return $this->doRequest('HEAD', $url, $options);
     }
 
-    public function delete($url, array $options = array())
+    public function delete($url, array $options = []): ConsulResponse
     {
         return $this->doRequest('DELETE', $url, $options);
     }
 
-    public function put($url, array $options = array())
+    public function put($url, array $options = []): ConsulResponse
     {
         return $this->doRequest('PUT', $url, $options);
     }
 
-    public function patch($url, array $options = array())
+    public function patch($url, array $options = []): ConsulResponse
     {
         return $this->doRequest('PATCH', $url, $options);
     }
 
-    public function post($url, array $options = array())
+    public function post($url, array $options = []): ConsulResponse
     {
         return $this->doRequest('POST', $url, $options);
     }
 
-    public function options($url, array $options = array())
+    public function options($url, array $options = []): ConsulResponse
     {
         return $this->doRequest('OPTIONS', $url, $options);
     }
 
-    private function doRequest($method, $url, $options)
+    private function doRequest($method, $url, $options): ConsulResponse
     {
-        if (isset($options['body']) && is_array($options['body'])) {
-            $options['body'] = json_encode($options['body']);
+        if (isset($options['body']) && \is_array($options['body'])) {
+            $options['body'] = json_encode($options['body'], \JSON_THROW_ON_ERROR);
         }
 
         $this->logger->info(sprintf('%s "%s"', $method, $url));
-        $this->logger->debug(sprintf('Requesting %s %s', $method, $url), array('options' => $options));
+        $this->logger->debug(sprintf('Requesting %s %s', $method, $url), ['options' => $options]);
 
         try {
             $response = $this->client->request($method, $url, $options);
@@ -108,9 +106,9 @@ final class Client implements ClientInterface
         return new ConsulResponse($response->getHeaders(), (string) $response->getContent(), $response->getStatusCode());
     }
 
-    private function formatResponse(ResponseInterface $response)
+    private function formatResponse(ResponseInterface $response): string
     {
-        $headers = array();
+        $headers = [];
 
         foreach ($response->getHeaders(false) as $key => $values) {
             foreach ($values as $value) {
