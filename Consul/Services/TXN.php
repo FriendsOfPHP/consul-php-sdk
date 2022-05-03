@@ -3,6 +3,7 @@
 namespace SensioLabs\Consul\Services;
 
 use SensioLabs\Consul\Client;
+use SensioLabs\Consul\ConsulResponse;
 use SensioLabs\Consul\OptionsResolver;
 
 final class TXN
@@ -14,7 +15,7 @@ final class TXN
         $this->client = $client ?: new Client();
     }
 
-    public function put(array $operations = [], array $options = [])
+    public function put(array $operations = [], array $options = []): ConsulResponse
     {
         $this->validate($operations);
 
@@ -31,7 +32,7 @@ final class TXN
      *
      * @throws \InvalidArgumentException
      */
-    private function validate(array $operations = [])
+    private function validate(array $operations = []): void
     {
         foreach ($operations as $index => $operation) {
             if (!\is_int($index)) {

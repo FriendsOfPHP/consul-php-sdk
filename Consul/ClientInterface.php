@@ -4,17 +4,17 @@ namespace SensioLabs\Consul;
 
 interface ClientInterface
 {
-    public function get($url = null, array $options = []);
+    public function get(string $url = null, array $options = []): ConsulResponse;
 
-    public function head($url, array $options = []);
+    public function head(string $url, array $options = []): ConsulResponse;
 
-    public function delete($url, array $options = []);
+    public function delete(string $url, array $options = []): ConsulResponse;
 
-    public function put($url, array $options = []);
+    public function put(string $url, array $options = []): ConsulResponse;
 
-    public function patch($url, array $options = []);
+    public function patch(string $url, array $options = []): ConsulResponse;
 
-    public function post($url, array $options = []);
+    public function post(string $url, array $options = []): ConsulResponse;
 
-    public function options($url, array $options = []);
+    public function options(string $url, array $options = []): ConsulResponse;
 }

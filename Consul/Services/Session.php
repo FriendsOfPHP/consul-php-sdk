@@ -3,6 +3,7 @@
 namespace SensioLabs\Consul\Services;
 
 use SensioLabs\Consul\Client;
+use SensioLabs\Consul\ConsulResponse;
 use SensioLabs\Consul\OptionsResolver;
 
 final class Session
@@ -14,7 +15,7 @@ final class Session
         $this->client = $client ?: new Client();
     }
 
-    public function create($body = null, array $options = [])
+    public function create($body = null, array $options = []): ConsulResponse
     {
         $params = [
             'body' => $body,
@@ -24,7 +25,7 @@ final class Session
         return $this->client->put('/v1/session/create', $params);
     }
 
-    public function destroy($sessionId, array $options = [])
+    public function destroy(string $sessionId, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -33,7 +34,7 @@ final class Session
         return $this->client->put('/v1/session/destroy/'.$sessionId, $params);
     }
 
-    public function info($sessionId, array $options = [])
+    public function info(string $sessionId, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -42,7 +43,7 @@ final class Session
         return $this->client->get('/v1/session/info/'.$sessionId, $params);
     }
 
-    public function node($node, array $options = [])
+    public function node(string $node, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -51,7 +52,7 @@ final class Session
         return $this->client->get('/v1/session/node/'.$node, $params);
     }
 
-    public function all(array $options = [])
+    public function all(array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -60,7 +61,7 @@ final class Session
         return $this->client->get('/v1/session/list', $params);
     }
 
-    public function renew($sessionId, array $options = [])
+    public function renew(string $sessionId, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),

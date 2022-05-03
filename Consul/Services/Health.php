@@ -3,6 +3,7 @@
 namespace SensioLabs\Consul\Services;
 
 use SensioLabs\Consul\Client;
+use SensioLabs\Consul\ConsulResponse;
 use SensioLabs\Consul\OptionsResolver;
 
 final class Health
@@ -14,7 +15,7 @@ final class Health
         $this->client = $client ?: new Client();
     }
 
-    public function node($node, array $options = [])
+    public function node(string $node, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -23,7 +24,7 @@ final class Health
         return $this->client->get('/v1/health/node/'.$node, $params);
     }
 
-    public function checks($service, array $options = [])
+    public function checks(string $service, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -32,7 +33,7 @@ final class Health
         return $this->client->get('/v1/health/checks/'.$service, $params);
     }
 
-    public function service($service, array $options = [])
+    public function service(string $service, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc', 'tag', 'passing']),
@@ -41,7 +42,7 @@ final class Health
         return $this->client->get('/v1/health/service/'.$service, $params);
     }
 
-    public function state($state, array $options = [])
+    public function state(string $state, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),

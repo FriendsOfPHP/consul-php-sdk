@@ -3,6 +3,7 @@
 namespace SensioLabs\Consul\Services;
 
 use SensioLabs\Consul\Client;
+use SensioLabs\Consul\ConsulResponse;
 use SensioLabs\Consul\OptionsResolver;
 
 final class Catalog
@@ -14,30 +15,30 @@ final class Catalog
         $this->client = $client ?: new Client();
     }
 
-    public function register($node)
+    public function register(string $node): ConsulResponse
     {
         $params = [
-            'body' => (string) $node,
+            'body' => $node,
         ];
 
         return $this->client->put('/v1/catalog/register', $params);
     }
 
-    public function deregister($node)
+    public function deregister(string $node): ConsulResponse
     {
         $params = [
-            'body' => (string) $node,
+            'body' => $node,
         ];
 
         return $this->client->put('/v1/catalog/deregister', $params);
     }
 
-    public function datacenters()
+    public function datacenters(): ConsulResponse
     {
         return $this->client->get('/v1/catalog/datacenters');
     }
 
-    public function nodes(array $options = [])
+    public function nodes(array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -46,7 +47,7 @@ final class Catalog
         return $this->client->get('/v1/catalog/nodes', $params);
     }
 
-    public function node($node, array $options = [])
+    public function node(string $node, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -55,7 +56,7 @@ final class Catalog
         return $this->client->get('/v1/catalog/node/'.$node, $params);
     }
 
-    public function services(array $options = [])
+    public function services(array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
@@ -64,7 +65,7 @@ final class Catalog
         return $this->client->get('/v1/catalog/services', $params);
     }
 
-    public function service($service, array $options = [])
+    public function service(string $service, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['dc', 'tag']),

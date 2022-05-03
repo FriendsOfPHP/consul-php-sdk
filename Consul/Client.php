@@ -34,42 +34,42 @@ final class Client implements ClientInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
-    public function get($url = null, array $options = []): ConsulResponse
+    public function get(string $url = null, array $options = []): ConsulResponse
     {
         return $this->doRequest('GET', $url, $options);
     }
 
-    public function head($url, array $options = []): ConsulResponse
+    public function head(string $url, array $options = []): ConsulResponse
     {
         return $this->doRequest('HEAD', $url, $options);
     }
 
-    public function delete($url, array $options = []): ConsulResponse
+    public function delete(string $url, array $options = []): ConsulResponse
     {
         return $this->doRequest('DELETE', $url, $options);
     }
 
-    public function put($url, array $options = []): ConsulResponse
+    public function put(string $url, array $options = []): ConsulResponse
     {
         return $this->doRequest('PUT', $url, $options);
     }
 
-    public function patch($url, array $options = []): ConsulResponse
+    public function patch(string $url, array $options = []): ConsulResponse
     {
         return $this->doRequest('PATCH', $url, $options);
     }
 
-    public function post($url, array $options = []): ConsulResponse
+    public function post(string $url, array $options = []): ConsulResponse
     {
         return $this->doRequest('POST', $url, $options);
     }
 
-    public function options($url, array $options = []): ConsulResponse
+    public function options(string $url, array $options = []): ConsulResponse
     {
         return $this->doRequest('OPTIONS', $url, $options);
     }
 
-    private function doRequest($method, $url, $options): ConsulResponse
+    private function doRequest(string $method, string $url, array $options): ConsulResponse
     {
         if (isset($options['body']) && \is_array($options['body'])) {
             $options['body'] = json_encode($options['body'], \JSON_THROW_ON_ERROR);

@@ -3,6 +3,7 @@
 namespace SensioLabs\Consul\Services;
 
 use SensioLabs\Consul\Client;
+use SensioLabs\Consul\ConsulResponse;
 use SensioLabs\Consul\OptionsResolver;
 
 final class Agent
@@ -14,17 +15,17 @@ final class Agent
         $this->client = $client ?: new Client();
     }
 
-    public function checks()
+    public function checks(): ConsulResponse
     {
         return $this->client->get('/v1/agent/checks');
     }
 
-    public function services()
+    public function services(): ConsulResponse
     {
         return $this->client->get('/v1/agent/services');
     }
 
-    public function members(array $options = [])
+    public function members(array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['wan']),
@@ -33,12 +34,12 @@ final class Agent
         return $this->client->get('/v1/agent/members', $params);
     }
 
-    public function self()
+    public function self(): ConsulResponse
     {
         return $this->client->get('/v1/agent/self');
     }
 
-    public function join($address, array $options = [])
+    public function join(string $address, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['wan']),
@@ -47,26 +48,26 @@ final class Agent
         return $this->client->get('/v1/agent/join/'.$address, $params);
     }
 
-    public function forceLeave($node)
+    public function forceLeave(string $node): ConsulResponse
     {
         return $this->client->get('/v1/agent/force-leave/'.$node);
     }
 
-    public function registerCheck($check)
+    public function registerCheck(array $check): ConsulResponse
     {
         $params = [
-            'body' => $check,
+            'json' => $check,
         ];
 
         return $this->client->put('/v1/agent/check/register', $params);
     }
 
-    public function deregisterCheck($checkId)
+    public function deregisterCheck(string $checkId): ConsulResponse
     {
         return $this->client->put('/v1/agent/check/deregister/'.$checkId);
     }
 
-    public function passCheck($checkId, array $options = [])
+    public function passCheck(string $checkId, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['note']),
@@ -75,7 +76,7 @@ final class Agent
         return $this->client->put('/v1/agent/check/pass/'.$checkId, $params);
     }
 
-    public function warnCheck($checkId, array $options = [])
+    public function warnCheck(string $checkId, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['note']),
@@ -84,7 +85,7 @@ final class Agent
         return $this->client->put('/v1/agent/check/warn/'.$checkId, $params);
     }
 
-    public function failCheck($checkId, array $options = [])
+    public function failCheck(string $checkId, array $options = []): ConsulResponse
     {
         $params = [
             'query' => OptionsResolver::resolve($options, ['note']),
@@ -93,7 +94,7 @@ final class Agent
         return $this->client->put('/v1/agent/check/fail/'.$checkId, $params);
     }
 
-    public function registerService($service)
+    public function registerService($service): ConsulResponse
     {
         $params = [
             'body' => $service,
@@ -102,7 +103,7 @@ final class Agent
         return $this->client->put('/v1/agent/service/register', $params);
     }
 
-    public function deregisterService($serviceId)
+    public function deregisterService(string $serviceId): ConsulResponse
     {
         return $this->client->put('/v1/agent/service/deregister/'.$serviceId);
     }
