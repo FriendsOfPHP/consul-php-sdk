@@ -20,7 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "SensioLabs\\Consul\\": "Consul"
+            "Consul\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Consul\\Tests\\": "tests/"
         }
     },
     "extra": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\Consul;
+namespace Consul;
 
 final class ConsulResponse
 {

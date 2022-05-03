@@ -1,9 +1,9 @@
 <?php
 
-namespace SensioLabs\Consul\Tests;
+namespace Consul\Tests;
 
+use Consul\OptionsResolver;
 use PHPUnit\Framework\TestCase;
-use SensioLabs\Consul\OptionsResolver;
 
 class OptionsResolverTest extends TestCase
 {

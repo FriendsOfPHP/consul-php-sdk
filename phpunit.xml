@@ -13,17 +13,14 @@
          verbose="true">
     <testsuites>
         <testsuite name="default">
-            <directory>Consul/Tests</directory>
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
 
     <coverage cacheDirectory=".phpunit.cache/code-coverage"
               processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">Consul</directory>
+            <directory suffix=".php">src/</directory>
         </include>
-        <exclude>
-            <directory suffix=".php">Consul/Tests</directory>
-        </exclude>
     </coverage>
 </phpunit>

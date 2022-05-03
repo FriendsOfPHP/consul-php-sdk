@@ -1,10 +1,10 @@
 <?php
 
-namespace SensioLabs\Consul\Services;
+namespace Consul\Services;
 
-use SensioLabs\Consul\Client;
-use SensioLabs\Consul\ConsulResponse;
-use SensioLabs\Consul\OptionsResolver;
+use Consul\Client;
+use Consul\ConsulResponse;
+use Consul\OptionsResolver;
 
 final class TXN
 {

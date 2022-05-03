@@ -25,7 +25,7 @@ Instantiate a services, and start using it:
 
 ```php
 
-$kv = new SensioLabs\Consul\Services\KV();
+$kv = new Consul\Services\KV();
 
 $kv->put('test/foo/bar', 'bazinga');
 $kv->get('test/foo/bar', ['raw' => true]);
@@ -49,7 +49,7 @@ So if you want to acquire an exclusive lock:
 ```php
 // Start a session
 
-$session = new SensioLabs\Consul\Services\Session();
+$session = new Consul\Services\Session();
 
 $sessionId = $session->create()->json()['ID'];
 

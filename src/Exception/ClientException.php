@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\Consul\Exception;
+namespace Consul\Exception;
 
 class ClientException extends \RuntimeException implements ConsulExceptionInterface
 {

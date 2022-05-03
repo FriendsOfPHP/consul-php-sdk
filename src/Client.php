@@ -1,11 +1,11 @@
 <?php
 
-namespace SensioLabs\Consul;
+namespace Consul;
 
+use Consul\Exception\ClientException;
+use Consul\Exception\ServerException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use SensioLabs\Consul\Exception\ClientException;
-use SensioLabs\Consul\Exception\ServerException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

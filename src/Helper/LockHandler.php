@@ -1,9 +1,9 @@
 <?php
 
-namespace SensioLabs\Consul\Helper;
+namespace Consul\Helper;
 
-use SensioLabs\Consul\Services\KV;
-use SensioLabs\Consul\Services\Session;
+use Consul\Services\KV;
+use Consul\Services\Session;
 
 final class LockHandler
 {

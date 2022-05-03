@@ -1,11 +1,11 @@
 <?php
 
-namespace SensioLabs\Consul\Tests\Services;
+namespace Consul\Tests\Services;
 
+use Consul\ConsulResponse;
+use Consul\Exception\ClientException;
+use Consul\Services\KV;
 use PHPUnit\Framework\TestCase;
-use SensioLabs\Consul\ConsulResponse;
-use SensioLabs\Consul\Exception\ClientException;
-use SensioLabs\Consul\Services\KV;
 
 class KVTest extends TestCase
 {
