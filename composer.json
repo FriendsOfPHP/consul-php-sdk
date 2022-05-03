@@ -1,5 +1,5 @@
 {
-    "name": "sensiolabs/consul-php-sdk",
+    "name": "friendsofphp/consul-php-sdk",
     "description": "SDK to talk with consul.io API",
     "keywords": ["hashicorp", "consul", "sdk"],
     "license": "MIT",

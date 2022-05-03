@@ -16,7 +16,7 @@ This table shows this SDK compatibility regarding supported Guzzle/Symfony http 
 
 This library can be installed with composer:
 
-    composer require sensiolabs/consul-php-sdk
+    composer require friendsofphp/consul-php-sdk
 
 ## Usage
 
