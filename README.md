@@ -83,3 +83,25 @@ $session->destroy($sessionId);
 ## Some utilities
 
 * Lock handler: Simple class that implement a distributed lock
+
+## Run the test suite
+
+You need a consul agent running on `localhost:8500`.
+
+But you ca override this address:
+
+```
+export CONSUL_HTTP_ADDR=http://172.17.0.2:8500
+```
+
+If you don't want to install Consul locally you can use the Docker image:
+
+```
+docker run -d --name=dev-consul -e CONSUL_BIND_INTERFACE=eth0 consul
+```
+
+Then
+
+```
+vendor/bin/simple-phpunit
+```

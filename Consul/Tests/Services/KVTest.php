@@ -2,22 +2,19 @@
 
 namespace SensioLabs\Consul\Tests\Services;
 
+use PHPUnit\Framework\TestCase;
 use SensioLabs\Consul\ConsulResponse;
+use SensioLabs\Consul\Exception\ClientException;
 use SensioLabs\Consul\Services\KV;
 
-class KVTest extends AbstractTest
+class KVTest extends TestCase
 {
-    private $kv;
+    private KV $kv;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->kv = new KV();
         $this->kv->delete('test', ['recurse' => true]);
-    }
-
-    protected function tearDown()
-    {
-        $this->kv = null;
     }
 
     public function testSetGetWithDefaultOptions()
@@ -75,13 +72,10 @@ class KVTest extends AbstractTest
         $this->kv->get('test/my/key');
         $this->kv->delete('test/my/key');
 
-        try {
-            $this->kv->get('test/my/key');
-            $this->fail('fail because the key does not exist anymore.');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('SensioLabs\Consul\Exception\ClientException', $e);
-            $this->assertContains('404', $e->getMessage());
-        }
+        $this->expectException(ClientException::class);
+        $this->expectExceptionMessageMatches('/404/');
+
+        $this->kv->get('test/my/key');
     }
 
     public function testDeleteWithRecurseOption()
@@ -101,8 +95,8 @@ class KVTest extends AbstractTest
                 $this->kv->get('test/my/key'.$i);
                 $this->fail('fail because the key does not exist anymore.');
             } catch (\Exception $e) {
-                $this->assertInstanceOf('SensioLabs\Consul\Exception\ClientException', $e);
-                $this->assertContains('404', $e->getMessage());
+                $this->assertInstanceOf(ClientException::class, $e);
+                $this->assertStringContainsString('404', $e->getMessage());
             }
         }
     }

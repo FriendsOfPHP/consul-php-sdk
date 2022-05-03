@@ -2,9 +2,10 @@
 
 namespace SensioLabs\Consul\Tests;
 
+use PHPUnit\Framework\TestCase;
 use SensioLabs\Consul\OptionsResolver;
 
-class OptionsResolverTest extends \PHPUnit_Framework_TestCase
+class OptionsResolverTest extends TestCase
 {
     public function testResolve()
     {
