@@ -22,7 +22,7 @@ final class Client implements ClientInterface
 
         if (isset($options['base_uri'])) {
             $baseUri = $options['base_uri'];
-        } elseif (array_key_exists('CONSUL_HTTP_ADDR', $_SERVER)) {
+        } elseif (\array_key_exists('CONSUL_HTTP_ADDR', $_SERVER)) {
             $baseUri = $_SERVER['CONSUL_HTTP_ADDR'];
         }
 

@@ -5,7 +5,7 @@ namespace SensioLabs\Consul\Services;
 use SensioLabs\Consul\Client;
 use SensioLabs\Consul\OptionsResolver;
 
-final class Health implements HealthInterface
+final class Health
 {
     private Client $client;
 

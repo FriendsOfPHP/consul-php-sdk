@@ -5,7 +5,7 @@ namespace SensioLabs\Consul\Services;
 use SensioLabs\Consul\Client;
 use SensioLabs\Consul\OptionsResolver;
 
-final class Agent implements AgentInterface
+final class Agent
 {
     private Client $client;
 
