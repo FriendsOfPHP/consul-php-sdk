@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    - cron: "0 0 * * MON"
+
+jobs:
+  php-cs-fixer:
+    name: Check PHP Coding Standards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --config=.php-cs-fixer.php --diff --dry-run
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: PHPStan
+        uses: docker://oskarstark/phpstan-ga
+        with:
+          args: analyse
+
+  ci:
+    name: Test PHP ${{ matrix.php-version }} ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["7.4", "8.0", "8.1"]
+        composer-flags: [""]
+        name: [""]
+        include:
+          - php-version: 7.4
+            composer-flags: "--prefer-lowest"
+            name: "(prefer lowest dependencies)"
+
+    services:
+      service-name-1:
+        image: consul
+        ports:
+          - 8500:8500
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: xml
+
+      - name: Install Composer dependencies
+        run: composer update --prefer-dist --no-interaction ${{ matrix.composer-flags }}
+
+      - name: Run Tests
+        run: make test-phpunit

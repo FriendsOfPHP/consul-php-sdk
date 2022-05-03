@@ -73,7 +73,9 @@ class KVTest extends TestCase
         $this->kv->delete('test/my/key');
 
         $this->expectException(ClientException::class);
-        $this->expectExceptionMessageMatches('/404/');
+        if (method_exists($this, 'expectExceptionMessageMatches')) {
+            $this->expectExceptionMessageMatches('/404/');
+        }
 
         $this->kv->get('test/my/key');
     }
