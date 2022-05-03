@@ -5,3 +5,5 @@ parameters:
     level: 5
     paths:
         - Consul
+    excludePaths:
+        - Consul/Tests
