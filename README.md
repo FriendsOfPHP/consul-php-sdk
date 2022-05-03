@@ -2,15 +2,10 @@
 
 ## Compatibility
 
-This table shows this SDK compatibility regarding supported Guzzle/Symfony http client versions:
-
-| SDK Version | Guzzle Version | Symfony HTTP Client |
-| ----------- | -------------- | ------------------- |
-| 1.x         | >=4, <6        | N/A                 |
-| 2.x         | 6              | N/A                 |
-| 3.x         | 6              | N/A                 |
-| 4.x         | N/A            | 5                   |
-| >=4.2       | N/A            | 5 or 6              |
+See previous version of
+[README](https://github.com/FriendsOfPHP/consul-php-sdk/tree/404366acbce4285d08126c0a55ace84c10e361d1)
+to find some version compatible with older version of symfony/http-client or
+guzzle
 
 ## Installation
 
@@ -21,7 +16,6 @@ This library can be installed with composer:
 ## Usage
 
 Instantiate a services, and start using it:
-
 
 ```php
 
