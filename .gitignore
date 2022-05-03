@@ -1,4 +1,2 @@
 /composer.lock
-/build/
-/bin/consul/config/data-dir/
 /vendor/
