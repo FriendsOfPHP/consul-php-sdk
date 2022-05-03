@@ -94,10 +94,10 @@ final class Agent
         return $this->client->put('/v1/agent/check/fail/'.$checkId, $params);
     }
 
-    public function registerService($service): ConsulResponse
+    public function registerService(array $service): ConsulResponse
     {
         $params = [
-            'body' => $service,
+            'json' => $service,
         ];
 
         return $this->client->put('/v1/agent/service/register', $params);

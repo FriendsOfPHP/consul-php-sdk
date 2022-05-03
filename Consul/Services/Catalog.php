@@ -15,19 +15,19 @@ final class Catalog
         $this->client = $client ?: new Client();
     }
 
-    public function register(string $node): ConsulResponse
+    public function register(array $node): ConsulResponse
     {
         $params = [
-            'body' => $node,
+            'json' => $node,
         ];
 
         return $this->client->put('/v1/catalog/register', $params);
     }
 
-    public function deregister(string $node): ConsulResponse
+    public function deregister(array $node): ConsulResponse
     {
         $params = [
-            'body' => $node,
+            'json' => $node,
         ];
 
         return $this->client->put('/v1/catalog/deregister', $params);

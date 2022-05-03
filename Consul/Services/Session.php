@@ -15,10 +15,10 @@ final class Session
         $this->client = $client ?: new Client();
     }
 
-    public function create($body = null, array $options = []): ConsulResponse
+    public function create(array $session = [], array $options = []): ConsulResponse
     {
         $params = [
-            'body' => $body,
+            'json' => $session,
             'query' => OptionsResolver::resolve($options, ['dc']),
         ];
 

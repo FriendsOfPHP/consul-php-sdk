@@ -20,7 +20,7 @@ final class TXN
         $this->validate($operations);
 
         $params = [
-            'body' => json_encode($operations, \JSON_THROW_ON_ERROR),
+            'json' => $operations,
             'query' => OptionsResolver::resolve($options, ['dc']),
         ];
 
