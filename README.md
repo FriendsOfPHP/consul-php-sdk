@@ -20,26 +20,19 @@ This library can be installed with composer:
 
 ## Usage
 
+Instantiate a services, and start using it:
 
-The simple way to use this SDK, is to instantiate the service factory:
-
-```php
-$sf = new SensioLabs\Consul\ServiceFactory();
-```
-
-Then, a service could be retrieve from this factory:
 
 ```php
-$kv = $sf->get(\SensioLabs\Consul\Services\KVInterface::class);
-```
 
-Then, a service expose few methods mapped from the consul [API](https://consul.io/docs/agent/http.html):
+$kv = new SensioLabs\Consul\Services\KV();
 
-```php
 $kv->put('test/foo/bar', 'bazinga');
 $kv->get('test/foo/bar', ['raw' => true]);
 $kv->delete('test/foo/bar');
 ```
+
+A service expose few methods mapped from the consul [API](https://consul.io/docs/agent/http.html):
 
 All services methods follow the same convention:
 
@@ -55,6 +48,9 @@ So if you want to acquire an exclusive lock:
 
 ```php
 // Start a session
+
+$session = new SensioLabs\Consul\Services\Session();
+
 $sessionId = $session->create()->json()['ID'];
 
 // Lock a key / value with the current session
@@ -77,13 +73,12 @@ $session->destroy($sessionId);
 
 ## Available services
 
-
 * agent
 * catalog
 * health
 * kv
-* txn
 * session
+* txn
 
 ## Some utilities
 
