@@ -18,13 +18,12 @@ final class Client implements ClientInterface
 
     public function __construct(array $options = [], LoggerInterface $logger = null, HttpClientInterface $client = null)
     {
-        if (\array_key_exists('CONSUL_HTTP_ADDR', $_SERVER)) {
-            $options['base_uri'] = $_SERVER['CONSUL_HTTP_ADDR'];
-        } elseif (!\array_key_exists('base_uri', $options)) {
-            $options['base_uri'] = 'http://127.0.0.1:8500';
+        if (!$client) {
+            $options['base_uri'] = DsnResolver::resolve($options);
+            $client = HttpClient::create($options);
         }
 
-        $this->client = $client ?? HttpClient::create($options);
+        $this->client = $client;
         $this->logger = $logger ?? new NullLogger();
     }
 
