@@ -1,5 +1,5 @@
 {
-    "name": "sensiolabs/consul-php-sdk",
+    "name": "friendsofphp/consul-php-sdk",
     "description": "SDK to talk with consul.io API",
     "keywords": ["hashicorp", "consul", "sdk"],
     "license": "MIT",
@@ -11,25 +11,26 @@
         }
     ],
     "require": {
+        "php": ">=7.4",
         "psr/log": "^1|^2|^3",
         "symfony/http-client": "^5.1|^6.0"
     },
     "require-dev": {
-        "symfony/process": "~2.5",
-        "symfony/filesystem": "~2.5",
-        "phpunit/phpunit": "^5.0"
+        "symfony/phpunit-bridge": "^5.0"
     },
     "autoload": {
         "psr-4": {
-            "SensioLabs\\Consul\\": "Consul"
+            "Consul\\": "src/"
         }
     },
-    "archive": {
-      "exclude": ["bin/"]
+    "autoload-dev": {
+        "psr-4": {
+            "Consul\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.x-dev"
+            "dev-master": "5.x-dev"
         }
     }
 }

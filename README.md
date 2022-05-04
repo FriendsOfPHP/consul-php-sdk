@@ -1,50 +1,45 @@
-Consul SDK
-==========
+# Consul PHP SDK
 
-Compatibility
--------------
+Consul PHP SDK is a thin wrapper around the [Consul](https://consul.io/) HTTP API.
 
-This table shows this SDK compatibility regarding supported Guzzle/Symfony http client versions:
+## Compatibility
 
-| SDK Version | Guzzle Version | Symfony HTTP Client |
-| ----------- | -------------- | ------------------- |
-| 1.x         | >=4, <6        | N/A                 |
-| 2.x         | 6              | N/A                 |
-| 3.x         | 6              | N/A                 |
-| 4.x         | N/A            | 5                   |
-| >=4.2       | N/A            | 5 or 6              |
+See previous version of
+[README.md](https://github.com/FriendsOfPHP/consul-php-sdk/tree/404366acbce4285d08126c0a55ace84c10e361d1)
+to find some version compatible with older version of symfony/http-client or
+guzzle
 
-Installation
-------------
+## Installation
 
 This library can be installed with composer:
 
-    composer require sensiolabs/consul-php-sdk
+    composer require friendsofphp/consul-php-sdk
 
-Usage
------
+## Supported services
 
-The simple way to use this SDK, is to instantiate the service factory:
+* agent
+* catalog
+* health
+* kv
+* session
+* txn
 
-```php
-$sf = new SensioLabs\Consul\ServiceFactory();
-```
+## Usage
 
-Then, a service could be retrieve from this factory:
-
-```php
-$kv = $sf->get(\SensioLabs\Consul\Services\KVInterface::class);
-```
-
-Then, a service expose few methods mapped from the consul [API](https://consul.io/docs/agent/http.html):
+Instantiate a services, and start using it:
 
 ```php
+
+$kv = new Consul\Services\KV();
+
 $kv->put('test/foo/bar', 'bazinga');
 $kv->get('test/foo/bar', ['raw' => true]);
 $kv->delete('test/foo/bar');
 ```
 
-All services methods follow the same convention:
+A service exposes few methods mapped from the consul [API](https://consul.io/docs/agent/http.html):
+
+**All services methods follow the same convention:**
 
 ```php
 $response = $service->method($mandatoryArgument, $someOptions);
@@ -52,12 +47,17 @@ $response = $service->method($mandatoryArgument, $someOptions);
 
 * All API mandatory arguments are placed as first;
 * All API optional arguments are directly mapped from `$someOptions`;
-* All methods return a raw http client response.
+* All methods return a `Consul\ConsulResponse`;
+* If the API responds with a 4xx response, a `Consul\Exception\ClientException` is thrown;
+* If the API responds with a 5xx response, a `Consul\Exception\ServeException` is thrown.
 
-So if you want to acquire an exclusive lock:
+## Cookbook
+
+### How to acquire an exclusive lock?
 
 ```php
-// Start a session
+$session = new Consul\Services\Session();
+
 $sessionId = $session->create()->json()['ID'];
 
 // Lock a key / value with the current session
@@ -78,17 +78,28 @@ $kv->delete('tests/session/a-lock');
 $session->destroy($sessionId);
 ```
 
-Available services
-------------------
+## Some utilities
 
-* agent
-* catalog
-* health
-* kv
-* txn
-* session
+* `Consul\Helper\LockHandler`: Simple class that implement a distributed lock
 
-Some utilities
---------------
+## Run the test suite
 
-* Lock handler: Simple class that implement a distributed lock
+You need a consul agent running on `localhost:8500`.
+
+But you ca override this address:
+
+```
+export CONSUL_HTTP_ADDR=172.17.0.2:8500
+```
+
+If you don't want to install Consul locally you can use a docker container:
+
+```
+docker run -d --name=dev-consul -e CONSUL_BIND_INTERFACE=eth0 consul
+```
+
+Then, run the test suite
+
+```
+vendor/bin/simple-phpunit
+```
