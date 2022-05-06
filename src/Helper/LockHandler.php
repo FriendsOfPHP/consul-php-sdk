@@ -1,11 +1,11 @@
 <?php
 
-namespace SensioLabs\Consul\Helper;
+namespace Consul\Helper;
 
-use SensioLabs\Consul\Services\KV;
-use SensioLabs\Consul\Services\Session;
+use Consul\Services\KV;
+use Consul\Services\Session;
 
-class LockHandler
+final class LockHandler
 {
     private $key;
     private $value;
@@ -37,7 +37,7 @@ class LockHandler
             return false;
         }
 
-        register_shutdown_function(array($this, 'release'));
+        register_shutdown_function([$this, 'release']);
 
         return true;
     }

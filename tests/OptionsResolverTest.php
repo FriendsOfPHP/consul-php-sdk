@@ -1,45 +1,46 @@
 <?php
 
-namespace SensioLabs\Consul\Tests;
+namespace Consul\Tests;
 
-use SensioLabs\Consul\OptionsResolver;
+use Consul\OptionsResolver;
+use PHPUnit\Framework\TestCase;
 
-class OptionsResolverTest extends \PHPUnit_Framework_TestCase
+class OptionsResolverTest extends TestCase
 {
     public function testResolve()
     {
-        $options = array(
+        $options = [
             'foo' => 'bar',
             'hello' => 'world',
             'baz' => 'inga',
-        );
+        ];
 
-        $availableOptions = array(
-            'foo', 'baz'
-        );
+        $availableOptions = [
+            'foo', 'baz',
+        ];
 
         $result = OptionsResolver::resolve($options, $availableOptions);
 
-        $expected = array(
+        $expected = [
             'foo' => 'bar',
             'baz' => 'inga',
-        );
+        ];
 
         $this->assertSame($expected, $result);
     }
 
     public function testResolveWithoutMatchingOptions()
     {
-        $options = array(
+        $options = [
             'hello' => 'world',
-        );
+        ];
 
-        $availableOptions = array(
-            'foo', 'baz'
-        );
+        $availableOptions = [
+            'foo', 'baz',
+        ];
 
         $result = OptionsResolver::resolve($options, $availableOptions);
 
-        $this->assertSame(array(), $result);
+        $this->assertSame([], $result);
     }
 }

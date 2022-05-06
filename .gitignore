@@ -1,4 +1,3 @@
-/.composer.lock
-/build/
-/consul-configuration/data-dir/
+/.phpunit.cache/
+/composer.lock
 /vendor/

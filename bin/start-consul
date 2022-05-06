@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-BASE=`dirname $0`/..
-
-cd $BASE/consul-configuration
-
-consul agent -config-dir=.
