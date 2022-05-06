@@ -54,60 +54,6 @@ So if you want to acquire an exclusive lock:
 
     $kv->delete('tests/session/a-lock');
     $session->destroy($sessionId);
-    
-Or you can use MultiLockHandler to lock one or more resources:
-
-    $serviceFactory = new ServiceFactory(['base_url' => 'http://127.0.0.1:8500']);
-    
-    $multiLockHandlerFactory = new MultiLockHandlerFactory(
-        $serviceFactory->get('session'),
-        $serviceFactory->get('kv'),
-        'test/lock/'
-    );
-    
-    $resources = ['resource1', 'resource2'];
-    
-    $multiLockHandler = $multiLockHandlerFactory->getMultiLockHandler($resources, 10);
-    
-    if (!$multiLockHandler->lock()) {
-        echo "The lock is already acquire by another node.\n";
-        exit(1);
-    }
-    
-    echo "Do you jobs here....";
-    sleep(5);
-    echo "End\n";
-    
-    $multiLockHandler->release();
-    
-    
-Also you can use MultiSemaphore:
-
-    $serviceFactory = new ServiceFactory(['base_url' => 'http://127.0.0.1:8500']);
-
-    $multiSemaphoreFactory = new MultiSemaphoreFactory(
-        $serviceFactory->get('session'),
-        $serviceFactory->get('kv'),
-        'test/semaphore'
-    );
-    
-    $resources = [
-        new Resource('resource1', 2, 7),
-        new Resource('resource2', 3, 6),
-        new Resource('resource3', 1, 1),
-    ];
-
-    $semaphore = $multiSemaphoreFactory->getMultiSemaphore($resources, 60);
-    if (!$semaphore->acquire()) {
-        echo "Resource are not available.\n";
-        exit(1);
-    }
-    
-    echo "Do you jobs here....";
-    sleep(5);
-    echo "End\n";
-    
-    $semaphore->release()
 
 Available services
 ------------------
@@ -122,5 +68,3 @@ Some utilities
 --------------
 
 * Lock handler: Simple class that implement a distributed lock
-* Multi Lock handler: Class that implement a distributed lock for many resources
-* Multi Semaphore handler: Class that implement a distributed semaphore for many resources
