@@ -7,7 +7,6 @@ use Consul\Services\Session;
 
 class MultiLockHandler
 {
-    /** @var string[] */
     private array $resources;
     private int $ttl;
     private Session $session;
@@ -15,13 +14,6 @@ class MultiLockHandler
     private string $sessionId;
     private string $lockPath;
 
-    /**
-     * @param array   $resources
-     * @param int $ttl
-     * @param Session $session
-     * @param KV      $kv
-     * @param string  $lockPath
-     */
     public function __construct(array $resources, int $ttl, Session $session, KV $kv, $lockPath)
     {
         $this->resources = $resources;
@@ -31,9 +23,6 @@ class MultiLockHandler
         $this->lockPath = $lockPath;
     }
 
-    /**
-     * @return bool
-     */
     public function lock(): bool
     {
         $result = true;
@@ -62,33 +51,21 @@ class MultiLockHandler
         return $result;
     }
 
-    /**
-     * @return void
-     */
     public function release(): void
     {
         $this->releaseResources($this->resources);
     }
 
-    /**
-     * @return bool
-     */
     public function renew(): bool
     {
         return $this->session->renew($this->sessionId)->isSuccessful();
     }
 
-    /**
-     * @return string[]
-     */
     public function getResources(): array
     {
         return $this->resources;
     }
 
-    /**
-     * @param string[] $resources
-     */
     private function releaseResources(array $resources): void
     {
         foreach ($resources as $resource) {

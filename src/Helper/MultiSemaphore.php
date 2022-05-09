@@ -12,19 +12,11 @@ class MultiSemaphore
     private Session $session;
     private KV $kv;
     private ?string $sessionId = null;
-    /** @var Resource[] */
     private array $resources;
     private string $keyPrefix;
     private int $ttl;
     private string $metaDataKey = '.semaphore';
 
-    /**
-     * @param Resource[] $resources
-     * @param int $ttl
-     * @param Session    $session
-     * @param KV         $kv
-     * @param string $keyPrefix
-     */
     public function __construct(array $resources, int $ttl, Session $session, KV $kv, string $keyPrefix)
     {
         $this->resources = $resources;
@@ -34,21 +26,15 @@ class MultiSemaphore
         $this->keyPrefix = trim($keyPrefix, '/');
     }
 
-    /**
-     * @return Resource[]
-     */
     public function getResources(): array
     {
         return $this->resources;
     }
 
-    /**
-     * @return bool
-     */
     public function acquire(): bool
     {
         if (null !== $this->sessionId) {
-            throw new RuntimeException('Resources are acquired.');
+            throw new RuntimeException('Resources are acquired already');
         }
 
         $result = true;
@@ -119,17 +105,11 @@ class MultiSemaphore
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     public function renew(): bool
     {
         return $this->session->renew($this->sessionId)->isSuccessful();
     }
 
-    /**
-     * Release resources if they were acquired
-     */
     public function release(): void
     {
         if ($this->sessionId) {
@@ -142,22 +122,11 @@ class MultiSemaphore
         }
     }
 
-    /**
-     * @param Resource $resource
-     *
-     * @return string
-     */
     private function getResourceKeyPrefix(Resource $resource): string
     {
         return $this->keyPrefix.'/'.$resource->getName();
     }
 
-    /**
-     * @param Resource $resource
-     * @param string $name
-     *
-     * @return string
-     */
     private function getResourceKey(Resource $resource, string $name): string
     {
         return $this->getResourceKeyPrefix($resource).'/'.$name;

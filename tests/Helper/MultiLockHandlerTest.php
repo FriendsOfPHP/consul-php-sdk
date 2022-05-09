@@ -14,7 +14,6 @@ class MultiLockHandlerTest extends TestCase
     {
         $resources = ['resource1', 'resource2'];
 
-
         $multiLockHandler1 = new MultiLockHandler($resources, 10, new Session(), new KV(), 'test/lock/');
         $multiLockHandler2 = new MultiLockHandler($resources, 10, new Session(), new KV(), 'test/lock/');
 

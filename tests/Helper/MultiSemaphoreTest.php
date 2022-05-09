@@ -80,7 +80,7 @@ class MultiSemaphoreTest extends TestCase
         static::assertTrue($semaphore1->acquire());
         static::assertFalse($semaphore2->acquire());
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 4; ++$i) {
             sleep(15);
             $semaphore1->renew();
         }
@@ -92,7 +92,7 @@ class MultiSemaphoreTest extends TestCase
 
     public function testExceptionAcquireAcquired(): void
     {
-        $this->expectExceptionObject(new RuntimeException("Resources are acquired"));
+        $this->expectExceptionObject(new RuntimeException('Resources are acquired already'));
 
         $resources = [
             new Resource('resource11', 7, 7),
