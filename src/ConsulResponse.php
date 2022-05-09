@@ -41,6 +41,6 @@ final class ConsulResponse
 
     public function isSuccessful(): bool
     {
-        return in_array($this->status, [self::HTTP_OK, self::HTTP_CREATED, self::HTTP_NO_CONTENT], true);
+        return \in_array($this->status, [self::HTTP_OK, self::HTTP_CREATED, self::HTTP_NO_CONTENT], true);
     }
 }

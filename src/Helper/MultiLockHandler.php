@@ -28,7 +28,7 @@ class MultiLockHandler
         $result = true;
 
         // Start a session
-        $this->sessionId = $this->session->create(['LockDelay' => 0, "TTL" => "{$this->ttl}s"])->json()['ID'];
+        $this->sessionId = $this->session->create(['LockDelay' => 0, 'TTL' => "{$this->ttl}s"])->json()['ID'];
 
         $lockedResources = [];
 
@@ -38,10 +38,11 @@ class MultiLockHandler
 
             if (false === $lockAcquired) {
                 $result = false;
+
                 break;
-            } else {
-                $lockedResources[] = $resource;
             }
+
+            $lockedResources[] = $resource;
         }
 
         if (!$result) {

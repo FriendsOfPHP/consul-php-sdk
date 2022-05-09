@@ -2,11 +2,12 @@
 
 namespace Consul\Tests\Helper;
 
+use Consul\Exception\ClientException;
+use Consul\Helper\MultiLockHandler;
 use Consul\Services\KV;
 use Consul\Services\Session;
-use Consul\Helper\MultiLockHandler;
 use PHPUnit\Framework\TestCase;
-use Consul\Exception\ClientException;
+
 
 class MultiLockHandlerTest extends TestCase
 {

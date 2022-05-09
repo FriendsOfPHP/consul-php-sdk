@@ -2,9 +2,9 @@
 
 namespace Consul\Helper;
 
+use Consul\Helper\MultiSemaphore\Resource;
 use Consul\Services\KV;
 use Consul\Services\Session;
-use Consul\Helper\MultiSemaphore\Resource;
 use RuntimeException;
 
 class MultiSemaphore
@@ -40,7 +40,7 @@ class MultiSemaphore
         $result = true;
 
         // Start a session
-        $session = $this->session->create(["Name" => "semaphore", "LockDelay" => 0, "TTL" => "{$this->ttl}s"])->json();
+        $session = $this->session->create(['Name' => 'semaphore', 'LockDelay' => 0, 'TTL' => "{$this->ttl}s"])->json();
         $this->sessionId = $session['ID'];
 
         foreach ($this->resources as $resource) {
@@ -59,6 +59,7 @@ class MultiSemaphore
                         $semaphoreMetaDataActual = $item;
                         $semaphoreMetaDataActual['Value'] = json_decode(base64_decode($semaphoreMetaDataActual['Value']), true);
                         unset($semaphoreDataItems[$key]);
+
                         break;
                     }
                 }

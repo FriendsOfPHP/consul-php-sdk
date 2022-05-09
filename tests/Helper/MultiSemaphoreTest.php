@@ -2,8 +2,8 @@
 
 namespace Consul\Tests\Helper;
 
-use Consul\Helper\MultiSemaphore\Resource;
 use Consul\Helper\MultiSemaphore;
+use Consul\Helper\MultiSemaphore\Resource;
 use Consul\Services\KV;
 use Consul\Services\Session;
 use PHPUnit\Framework\TestCase;
