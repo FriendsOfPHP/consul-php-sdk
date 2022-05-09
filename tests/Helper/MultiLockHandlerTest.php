@@ -8,7 +8,6 @@ use Consul\Services\KV;
 use Consul\Services\Session;
 use PHPUnit\Framework\TestCase;
 
-
 class MultiLockHandlerTest extends TestCase
 {
     public function testLockTheSameResource(): void
