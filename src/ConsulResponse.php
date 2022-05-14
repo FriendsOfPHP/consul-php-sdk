@@ -4,10 +4,6 @@ namespace Consul;
 
 final class ConsulResponse
 {
-    private const HTTP_OK = 200;
-    private const HTTP_CREATED = 201;
-    private const HTTP_NO_CONTENT = 204;
-
     private array $headers;
     private string $body;
     private int $status;
@@ -41,6 +37,6 @@ final class ConsulResponse
 
     public function isSuccessful(): bool
     {
-        return \in_array($this->status, [self::HTTP_OK, self::HTTP_CREATED, self::HTTP_NO_CONTENT], true);
+        return $this->status >= 200 && $this->status < 300;
     }
 }

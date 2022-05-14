@@ -78,9 +78,48 @@ $kv->delete('tests/session/a-lock');
 $session->destroy($sessionId);
 ```
 
+### How to use MultiLockHandler?
+
+```php
+$resources = ['resource1', 'resource2'];
+
+$multiLockHandler = new MultiLockHandler($resources, 60, new Session(), new KV(), 'my/lock/');
+
+if ($multiLockHandler->lock()) {
+    try {
+        echo "Do you jobs here....";
+    } finally {
+        $multiLockHandler->release();    
+    }
+}
+```
+
+
+### How to use MultiSemaphore?
+
+```php
+$resources = [
+    new Resource('resource1', 2, 7),
+    new Resource('resource2', 3, 6),
+    new Resource('resource3', 1, 1),
+];
+
+$semaphore = new MultiSemaphore($resources, 60, new Session(), new KV(), 'my/semaphore');
+
+if ($semaphore->acquire()) {
+    try {
+        echo "Do you jobs here....";
+    } finally {
+        $semaphore->release();    
+    }
+}
+```
+
 ## Some utilities
 
 * `Consul\Helper\LockHandler`: Simple class that implement a distributed lock
+* `Consul\Helper\MultiLockHandler`: Simple class that implements a distributed lock for many resources
+* `Consul\Helper\MultiSemaphore`: Simple class that implements a distributed semaphore for many resources
 
 ## Run the test suite
 

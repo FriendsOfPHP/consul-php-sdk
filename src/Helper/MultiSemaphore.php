@@ -37,11 +37,43 @@ class MultiSemaphore
             throw new RuntimeException('Resources are acquired already');
         }
 
-        $result = true;
-
         // Start a session
         $session = $this->session->create(['Name' => 'semaphore', 'LockDelay' => 0, 'TTL' => "{$this->ttl}s"])->json();
         $this->sessionId = $session['ID'];
+
+        $result = false;
+
+        try {
+            $result = $this->acquireResources();
+        } finally {
+            if (!$result) {
+                $this->release();
+            }
+        }
+
+        return $result;
+    }
+
+    public function renew(): bool
+    {
+        return $this->session->renew($this->sessionId)->isSuccessful();
+    }
+
+    public function release(): void
+    {
+        if ($this->sessionId) {
+            foreach ($this->resources as $resource) {
+                $this->kv->delete($this->getResourceKey($resource, $this->sessionId));
+            }
+
+            $this->session->destroy($this->sessionId);
+            $this->sessionId = null;
+        }
+    }
+
+    private function acquireResources(): bool
+    {
+        $result = true;
 
         foreach ($this->resources as $resource) {
             if (false === $this->kv->put($this->getResourceKey($resource, $this->sessionId), '', ['acquire' => $this->sessionId])->json()) {
@@ -99,28 +131,7 @@ class MultiSemaphore
             }
         }
 
-        if (!$result) {
-            $this->release();
-        }
-
         return $result;
-    }
-
-    public function renew(): bool
-    {
-        return $this->session->renew($this->sessionId)->isSuccessful();
-    }
-
-    public function release(): void
-    {
-        if ($this->sessionId) {
-            foreach ($this->resources as $resource) {
-                $this->kv->delete($this->getResourceKey($resource, $this->sessionId));
-            }
-
-            $this->session->destroy($this->sessionId);
-            $this->sessionId = null;
-        }
     }
 
     private function getResourceKeyPrefix(Resource $resource): string
