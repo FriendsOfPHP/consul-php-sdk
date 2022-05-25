@@ -17,6 +17,7 @@ be given to not break the BC and to provide a nice upgrade path.
 * Add support for missing scheme in DSN
 * Switch from Travis to GitHub Action
 * Add some internal tooling (php-cs-fixer, phpstan, phpunit, Makefile)
+* Add MultiLockHandler and MultiSemaphore helpers
 
 ---
 

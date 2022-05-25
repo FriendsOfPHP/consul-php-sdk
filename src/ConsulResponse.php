@@ -30,8 +30,13 @@ final class ConsulResponse
         return $this->status;
     }
 
-    public function json(): ?array
+    public function json()
     {
         return json_decode($this->body, true, 512, \JSON_THROW_ON_ERROR);
+    }
+
+    public function isSuccessful(): bool
+    {
+        return $this->status >= 200 && $this->status < 300;
     }
 }
