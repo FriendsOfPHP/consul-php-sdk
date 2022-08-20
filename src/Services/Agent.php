@@ -3,14 +3,15 @@
 namespace Consul\Services;
 
 use Consul\Client;
+use Consul\ClientInterface;
 use Consul\ConsulResponse;
 use Consul\OptionsResolver;
 
 final class Agent
 {
-    private Client $client;
+    private ClientInterface $client;
 
-    public function __construct(Client $client = null)
+    public function __construct(ClientInterface $client = null)
     {
         $this->client = $client ?: new Client();
     }
