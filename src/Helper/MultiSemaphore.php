@@ -110,7 +110,7 @@ class MultiSemaphore
                 }
 
                 $resource->setAcquired(
-                    min($resource->getAcquire(), ($semaphoreMetaDataValue['limit'] - array_sum($semaphoreMetaDataValue['sessions'])))
+                    min($resource->getAcquire(), $semaphoreMetaDataValue['limit'] - array_sum($semaphoreMetaDataValue['sessions']))
                 );
 
                 // add new element to metadata and save it
