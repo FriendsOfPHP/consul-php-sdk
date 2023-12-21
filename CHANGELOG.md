@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## 5.1.0 (not released yet)
+## 5.2.0 (not released yet)
+
+## 5.1.0 (2023-12-21)
+
+* Add support for Support symfony/http-client 7.x
 
 ## 5.0.0 (2022-06-13)
 
