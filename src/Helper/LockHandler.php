@@ -14,7 +14,7 @@ final class LockHandler
 
     private $sessionId;
 
-    public function __construct($key, $value = null, Session $session = null, KV $kv = null)
+    public function __construct($key, $value = null, ?Session $session = null, ?KV $kv = null)
     {
         $this->key = $key;
         $this->value = $value;

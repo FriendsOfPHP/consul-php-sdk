@@ -4,7 +4,7 @@ namespace Consul;
 
 interface ClientInterface
 {
-    public function get(string $url = null, array $options = []): ConsulResponse;
+    public function get(?string $url = null, array $options = []): ConsulResponse;
 
     public function head(string $url, array $options = []): ConsulResponse;
 

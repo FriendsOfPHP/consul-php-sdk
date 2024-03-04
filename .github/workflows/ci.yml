@@ -2,10 +2,8 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-  schedule:
-    - cron: "0 0 * * MON"
 
 jobs:
   php-cs-fixer:
@@ -38,17 +36,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ["7.4", "8.0", "8.1"]
+        php-version: ["8.2", "8.3"]
         composer-flags: [""]
         name: [""]
         include:
-          - php-version: 7.4
+          - php-version: 8.1
             composer-flags: "--prefer-lowest"
             name: "(prefer lowest dependencies)"
 
     services:
       service-name-1:
-        image: consul
+        image: consul:1.15
         ports:
           - 8500:8500
 

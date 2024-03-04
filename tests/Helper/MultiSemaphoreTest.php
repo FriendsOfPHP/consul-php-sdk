@@ -7,7 +7,6 @@ use Consul\Helper\MultiSemaphore\Resource;
 use Consul\Services\KV;
 use Consul\Services\Session;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 
 class MultiSemaphoreTest extends TestCase
 {
@@ -92,7 +91,7 @@ class MultiSemaphoreTest extends TestCase
 
     public function testExceptionAcquireAcquired(): void
     {
-        $this->expectExceptionObject(new RuntimeException('Resources are acquired already'));
+        $this->expectExceptionObject(new \RuntimeException('Resources are acquired already'));
 
         $resources = [
             new Resource('resource11', 7, 7),

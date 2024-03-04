@@ -11,7 +11,7 @@ final class KV
 {
     private ClientInterface $client;
 
-    public function __construct(ClientInterface $client = null)
+    public function __construct(?ClientInterface $client = null)
     {
         $this->client = $client ?: new Client();
     }
