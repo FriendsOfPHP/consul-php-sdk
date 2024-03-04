@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 5.2.0 (not released yet)
+## 5.3.0 (not released yet)
+
+## 5.2.0 (2024-03-04)
 
 * Drop support for PHP < .8.0
 * Add support for PHP 8.2, and 8.3
