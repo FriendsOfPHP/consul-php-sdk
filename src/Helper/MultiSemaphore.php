@@ -5,7 +5,6 @@ namespace Consul\Helper;
 use Consul\Helper\MultiSemaphore\Resource;
 use Consul\Services\KV;
 use Consul\Services\Session;
-use RuntimeException;
 
 class MultiSemaphore
 {
@@ -34,7 +33,7 @@ class MultiSemaphore
     public function acquire(): bool
     {
         if (null !== $this->sessionId) {
-            throw new RuntimeException('Resources are acquired already');
+            throw new \RuntimeException('Resources are acquired already');
         }
 
         // Start a session

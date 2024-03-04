@@ -16,7 +16,7 @@ final class Client implements ClientInterface
     private HttpClientInterface $client;
     private LoggerInterface $logger;
 
-    public function __construct(array $options = [], LoggerInterface $logger = null, HttpClientInterface $client = null)
+    public function __construct(array $options = [], ?LoggerInterface $logger = null, ?HttpClientInterface $client = null)
     {
         if (!$client) {
             $options['base_uri'] = DsnResolver::resolve($options);
@@ -27,7 +27,7 @@ final class Client implements ClientInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
-    public function get(string $url = null, array $options = []): ConsulResponse
+    public function get(?string $url = null, array $options = []): ConsulResponse
     {
         return $this->doRequest('GET', $url, $options);
     }

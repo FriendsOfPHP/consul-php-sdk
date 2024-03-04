@@ -4,7 +4,6 @@ namespace Consul\Helper;
 
 use Consul\Services\KV;
 use Consul\Services\Session;
-use Exception;
 
 class MultiLockHandler
 {
@@ -45,7 +44,7 @@ class MultiLockHandler
 
                 $lockedResources[] = $resource;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = false;
         } finally {
             if (!$result) {
