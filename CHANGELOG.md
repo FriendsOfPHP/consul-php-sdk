@@ -2,6 +2,10 @@
 
 ## 5.2.0 (not released yet)
 
+* Drop support for PHP < .8.0
+* Add support for PHP 8.2, and 8.3
+* Drop support for Symfony < 5.4, and 6.0, 6.1, 6.2, and 6.3
+
 ## 5.1.0 (2023-12-21)
 
 * Add support for Support symfony/http-client 7.x
