@@ -46,7 +46,7 @@ jobs:
 
     services:
       service-name-1:
-        image: consul
+        image: consul:1.15
         ports:
           - 8500:8500
 
