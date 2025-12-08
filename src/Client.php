@@ -68,23 +68,23 @@ final class Client implements ClientInterface
             $options['body'] = json_encode($options['body'], \JSON_THROW_ON_ERROR);
         }
 
-        $this->logger->info(sprintf('%s "%s"', $method, $url));
-        $this->logger->debug(sprintf('Requesting %s %s', $method, $url), ['options' => $options]);
+        $this->logger->info(\sprintf('%s "%s"', $method, $url));
+        $this->logger->debug(\sprintf('Requesting %s %s', $method, $url), ['options' => $options]);
 
         try {
             $response = $this->client->request($method, $url, $options);
         } catch (TransportExceptionInterface $e) {
-            $message = sprintf('Something went wrong when calling consul (%s).', $e->getMessage());
+            $message = \sprintf('Something went wrong when calling consul (%s).', $e->getMessage());
 
             $this->logger->error($message);
 
             throw new ServerException($message);
         }
 
-        $this->logger->debug(sprintf("Response:\n%s", $this->formatResponse($response)));
+        $this->logger->debug(\sprintf("Response:\n%s", $this->formatResponse($response)));
 
         if (400 <= $response->getStatusCode()) {
-            $message = sprintf('Something went wrong when calling consul (%s).', $response->getStatusCode());
+            $message = \sprintf('Something went wrong when calling consul (%s).', $response->getStatusCode());
 
             $this->logger->error($message);
 
@@ -105,10 +105,10 @@ final class Client implements ClientInterface
 
         foreach ($response->getHeaders(false) as $key => $values) {
             foreach ($values as $value) {
-                $headers[] = sprintf('%s: %s', $key, $value);
+                $headers[] = \sprintf('%s: %s', $key, $value);
             }
         }
 
-        return sprintf("%s\n\n%s", implode("\n", $headers), $response->getContent(false));
+        return \sprintf("%s\n\n%s", implode("\n", $headers), $response->getContent(false));
     }
 }
