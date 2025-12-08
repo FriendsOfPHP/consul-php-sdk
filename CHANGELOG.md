@@ -1,6 +1,11 @@
 # CHANGELOG
 
-## 5.3.0 (not released yet)
+## 5.4.0 (not released yet)
+
+## 5.3.0 (2025-12-08)
+
+* Add support for PHP 8.4, 8.5
+* Add support for Symfony 8.x
 
 ## 5.2.0 (2024-03-04)
 
