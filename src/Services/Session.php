@@ -19,7 +19,8 @@ final readonly class Session
     public function create(array $session = [], array $options = []): ConsulResponse
     {
         $params = [
-            'json' => $session,
+            // Consul expects a JSON object, even when empty
+            'json' => (object) $session,
             'query' => OptionsResolver::resolve($options, ['dc']),
         ];
 

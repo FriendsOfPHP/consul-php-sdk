@@ -8,6 +8,7 @@
 * Switch the test suite from symfony/phpunit-bridge to PHPUnit 11+
 * Modernize the code base (readonly classes and properties, constructor property promotion, ...)
 * Fix `MultiSemaphore` reusing the metadata of a previous resource when acquiring many resources
+* Fix `Session::create()` (and so `LockHandler`) when called without arguments
 
 ## 5.3.0 (2025-12-08)
 
