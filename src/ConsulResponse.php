@@ -2,17 +2,13 @@
 
 namespace Consul;
 
-final class ConsulResponse
+final readonly class ConsulResponse
 {
-    private array $headers;
-    private string $body;
-    private int $status;
-
-    public function __construct(array $headers, string $body, int $status = 200)
-    {
-        $this->headers = $headers;
-        $this->body = $body;
-        $this->status = $status;
+    public function __construct(
+        private array $headers,
+        private string $body,
+        private int $status = 200,
+    ) {
     }
 
     public function getHeaders(): array
@@ -30,7 +26,7 @@ final class ConsulResponse
         return $this->status;
     }
 
-    public function json()
+    public function json(): mixed
     {
         return json_decode($this->body, true, 512, \JSON_THROW_ON_ERROR);
     }

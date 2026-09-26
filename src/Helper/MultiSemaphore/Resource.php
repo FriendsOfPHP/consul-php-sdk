@@ -4,17 +4,13 @@ namespace Consul\Helper\MultiSemaphore;
 
 class Resource
 {
-    private string $name;
-    private int $acquire;
-    private int $acquired;
-    private int $limit;
+    private int $acquired = 0;
 
-    public function __construct(string $name, int $acquire, int $limit)
-    {
-        $this->name = $name;
-        $this->acquire = $acquire;
-        $this->acquired = 0;
-        $this->limit = $limit;
+    public function __construct(
+        private readonly string $name,
+        private readonly int $acquire,
+        private readonly int $limit,
+    ) {
     }
 
     public function getName(): string

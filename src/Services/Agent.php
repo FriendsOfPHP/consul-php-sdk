@@ -7,13 +7,13 @@ use Consul\ClientInterface;
 use Consul\ConsulResponse;
 use Consul\OptionsResolver;
 
-final class Agent
+final readonly class Agent
 {
     private ClientInterface $client;
 
     public function __construct(?ClientInterface $client = null)
     {
-        $this->client = $client ?: new Client();
+        $this->client = $client ?? new Client();
     }
 
     public function checks(): ConsulResponse
@@ -28,11 +28,7 @@ final class Agent
 
     public function members(array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['wan']),
-        ];
-
-        return $this->client->get('/v1/agent/members', $params);
+        return $this->client->get('/v1/agent/members', ['query' => OptionsResolver::resolve($options, ['wan'])]);
     }
 
     public function self(): ConsulResponse
@@ -42,11 +38,7 @@ final class Agent
 
     public function join(string $address, array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['wan']),
-        ];
-
-        return $this->client->get('/v1/agent/join/'.$address, $params);
+        return $this->client->get('/v1/agent/join/'.$address, ['query' => OptionsResolver::resolve($options, ['wan'])]);
     }
 
     public function forceLeave(string $node): ConsulResponse
@@ -56,11 +48,7 @@ final class Agent
 
     public function registerCheck(array $check): ConsulResponse
     {
-        $params = [
-            'json' => $check,
-        ];
-
-        return $this->client->put('/v1/agent/check/register', $params);
+        return $this->client->put('/v1/agent/check/register', ['json' => $check]);
     }
 
     public function deregisterCheck(string $checkId): ConsulResponse
@@ -70,38 +58,22 @@ final class Agent
 
     public function passCheck(string $checkId, array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['note']),
-        ];
-
-        return $this->client->put('/v1/agent/check/pass/'.$checkId, $params);
+        return $this->client->put('/v1/agent/check/pass/'.$checkId, ['query' => OptionsResolver::resolve($options, ['note'])]);
     }
 
     public function warnCheck(string $checkId, array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['note']),
-        ];
-
-        return $this->client->put('/v1/agent/check/warn/'.$checkId, $params);
+        return $this->client->put('/v1/agent/check/warn/'.$checkId, ['query' => OptionsResolver::resolve($options, ['note'])]);
     }
 
     public function failCheck(string $checkId, array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['note']),
-        ];
-
-        return $this->client->put('/v1/agent/check/fail/'.$checkId, $params);
+        return $this->client->put('/v1/agent/check/fail/'.$checkId, ['query' => OptionsResolver::resolve($options, ['note'])]);
     }
 
     public function registerService(array $service): ConsulResponse
     {
-        $params = [
-            'json' => $service,
-        ];
-
-        return $this->client->put('/v1/agent/service/register', $params);
+        return $this->client->put('/v1/agent/service/register', ['json' => $service]);
     }
 
     public function deregisterService(string $serviceId): ConsulResponse

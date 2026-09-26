@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class DsnResolverTest extends TestCase
 {
     #[DataProvider('provideResolveTest')]
-    public function testResolve(string $expected, ?string $dsn)
+    public function testResolve(string $expected, ?string $dsn): void
     {
         $previousValue = $_SERVER['CONSUL_HTTP_ADDR'] ?? null;
 

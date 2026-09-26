@@ -6,6 +6,8 @@
 * Drop support for Symfony 5.4, 7.0, 7.1, 7.2, 7.3 and 8.0
 * Drop support for psr/log 1.x
 * Switch the test suite from symfony/phpunit-bridge to PHPUnit 11+
+* Modernize the code base (readonly classes and properties, constructor property promotion, ...)
+* Fix `MultiSemaphore` reusing the metadata of a previous resource when acquiring many resources
 
 ## 5.3.0 (2025-12-08)
 

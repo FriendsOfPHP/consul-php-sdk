@@ -13,17 +13,12 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class Client implements ClientInterface
 {
-    private HttpClientInterface $client;
-    private LoggerInterface $logger;
+    private readonly HttpClientInterface $client;
+    private readonly LoggerInterface $logger;
 
     public function __construct(array $options = [], ?LoggerInterface $logger = null, ?HttpClientInterface $client = null)
     {
-        if (!$client) {
-            $options['base_uri'] = DsnResolver::resolve($options);
-            $client = HttpClient::create($options);
-        }
-
-        $this->client = $client;
+        $this->client = $client ?? HttpClient::create([...$options, 'base_uri' => DsnResolver::resolve($options)]);
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -64,7 +59,7 @@ final class Client implements ClientInterface
 
     private function doRequest(string $method, string $url, array $options): ConsulResponse
     {
-        if (isset($options['body']) && \is_array($options['body'])) {
+        if (\is_array($options['body'] ?? null)) {
             $options['body'] = json_encode($options['body'], \JSON_THROW_ON_ERROR);
         }
 
@@ -83,20 +78,19 @@ final class Client implements ClientInterface
 
         $this->logger->debug(\sprintf("Response:\n%s", $this->formatResponse($response)));
 
-        if (400 <= $response->getStatusCode()) {
-            $message = \sprintf('Something went wrong when calling consul (%s).', $response->getStatusCode());
+        $statusCode = $response->getStatusCode();
+
+        if (400 <= $statusCode) {
+            $message = \sprintf('Something went wrong when calling consul (%s).', $statusCode);
 
             $this->logger->error($message);
 
-            $message .= "\n".(string) $response->getContent(false);
-            if (500 <= $response->getStatusCode()) {
-                throw new ServerException($message, $response->getStatusCode());
-            }
+            $message .= "\n".$response->getContent(false);
 
-            throw new ClientException($message, $response->getStatusCode());
+            throw 500 <= $statusCode ? new ServerException($message, $statusCode) : new ClientException($message, $statusCode);
         }
 
-        return new ConsulResponse($response->getHeaders(), (string) $response->getContent(), $response->getStatusCode());
+        return new ConsulResponse($response->getHeaders(), $response->getContent(), $statusCode);
     }
 
     private function formatResponse(ResponseInterface $response): string
