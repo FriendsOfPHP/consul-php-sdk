@@ -140,5 +140,5 @@ docker run -d --name=dev-consul -e CONSUL_BIND_INTERFACE=eth0 consul
 Then, run the test suite
 
 ```
-vendor/bin/simple-phpunit
+vendor/bin/phpunit
 ```

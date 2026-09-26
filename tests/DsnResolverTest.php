@@ -3,11 +3,12 @@
 namespace Consul\Tests;
 
 use Consul\DsnResolver;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class DsnResolverTest extends TestCase
 {
-    /** @dataProvider provideResolveTest */
+    #[DataProvider('provideResolveTest')]
     public function testResolve(string $expected, ?string $dsn)
     {
         $previousValue = $_SERVER['CONSUL_HTTP_ADDR'] ?? null;
@@ -23,7 +24,7 @@ class DsnResolverTest extends TestCase
         }
     }
 
-    public function provideResolveTest(): iterable
+    public static function provideResolveTest(): iterable
     {
         yield ['http://127.0.0.1:5000', 'http://127.0.0.1:5000'];
         yield ['https://127.0.0.1:5000', 'https://127.0.0.1:5000'];

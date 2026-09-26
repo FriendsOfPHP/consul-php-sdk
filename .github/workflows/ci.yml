@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
@@ -40,19 +40,19 @@ jobs:
         composer-flags: [""]
         name: [""]
         include:
-          - php-version: 8.1
+          - php-version: "8.2"
             composer-flags: "--prefer-lowest"
             name: "(prefer lowest dependencies)"
 
     services:
-      service-name-1:
-        image: consul:1.15
+      consul:
+        image: hashicorp/consul:2.0
         ports:
           - 8500:8500
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
