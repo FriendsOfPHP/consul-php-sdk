@@ -12,6 +12,6 @@ test-phpstan: ### Execute phpstan
 	phpstan
 
 test-phpunit: ### Execute phpunit
-	vendor/bin/simple-phpunit
+	vendor/bin/phpunit
 
 test-all: test-phpcsfixer test-phpstan test-phpunit ### Test everything

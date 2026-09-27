@@ -17,7 +17,7 @@ class KVTest extends TestCase
         $this->kv->delete('test', ['recurse' => true]);
     }
 
-    public function testSetGetWithDefaultOptions()
+    public function testSetGetWithDefaultOptions(): void
     {
         $value = date('r');
         $this->kv->put('test/my/key', $value);
@@ -29,7 +29,7 @@ class KVTest extends TestCase
         $this->assertSame($value, base64_decode($json[0]['Value']));
     }
 
-    public function testSetGetWithRawOption()
+    public function testSetGetWithRawOption(): void
     {
         $value = date('r');
         $this->kv->put('test/my/key', $value);
@@ -41,7 +41,7 @@ class KVTest extends TestCase
         $this->assertSame($value, $body);
     }
 
-    public function testSetGetWithFlagsOption()
+    public function testSetGetWithFlagsOption(): void
     {
         $flags = random_int(0, mt_getrandmax());
         $this->kv->put('test/my/key', 'hello', ['flags' => $flags]);
@@ -53,7 +53,7 @@ class KVTest extends TestCase
         $this->assertSame($flags, $json[0]['Flags']);
     }
 
-    public function testSetGetWithKeysOption()
+    public function testSetGetWithKeysOption(): void
     {
         $this->kv->put('test/my/key1', 'hello 1');
         $this->kv->put('test/my/key2', 'hello 2');
@@ -66,21 +66,19 @@ class KVTest extends TestCase
         $this->assertSame(['test/my/key1', 'test/my/key2', 'test/my/key3'], $json);
     }
 
-    public function testDeleteWithDefaultOptions()
+    public function testDeleteWithDefaultOptions(): void
     {
         $this->kv->put('test/my/key', 'hello');
         $this->kv->get('test/my/key');
         $this->kv->delete('test/my/key');
 
         $this->expectException(ClientException::class);
-        if (method_exists($this, 'expectExceptionMessageMatches')) {
-            $this->expectExceptionMessageMatches('/404/');
-        }
+        $this->expectExceptionMessageMatches('/404/');
 
         $this->kv->get('test/my/key');
     }
 
-    public function testDeleteWithRecurseOption()
+    public function testDeleteWithRecurseOption(): void
     {
         $this->kv->put('test/my/key1', 'hello 1');
         $this->kv->put('test/my/key2', 'hello 2');

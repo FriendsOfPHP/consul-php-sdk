@@ -8,20 +8,18 @@ use Consul\Services\Session;
 
 class MultiSemaphore
 {
-    private Session $session;
-    private KV $kv;
-    private ?string $sessionId = null;
-    private array $resources;
-    private string $keyPrefix;
-    private int $ttl;
-    private string $metaDataKey = '.semaphore';
+    private const META_DATA_KEY = '.semaphore';
 
-    public function __construct(array $resources, int $ttl, Session $session, KV $kv, string $keyPrefix)
-    {
-        $this->resources = $resources;
-        $this->ttl = $ttl;
-        $this->session = $session;
-        $this->kv = $kv;
+    private readonly string $keyPrefix;
+    private ?string $sessionId = null;
+
+    public function __construct(
+        private readonly array $resources,
+        private readonly int $ttl,
+        private readonly Session $session,
+        private readonly KV $kv,
+        string $keyPrefix,
+    ) {
         $this->keyPrefix = trim($keyPrefix, '/');
     }
 
@@ -37,8 +35,7 @@ class MultiSemaphore
         }
 
         // Start a session
-        $session = $this->session->create(['Name' => 'semaphore', 'LockDelay' => 0, 'TTL' => "{$this->ttl}s"])->json();
-        $this->sessionId = $session['ID'];
+        $this->sessionId = $this->session->create(['Name' => 'semaphore', 'LockDelay' => 0, 'TTL' => "{$this->ttl}s"])->json()['ID'];
 
         $result = false;
 
@@ -60,77 +57,76 @@ class MultiSemaphore
 
     public function release(): void
     {
-        if ($this->sessionId) {
-            foreach ($this->resources as $resource) {
-                $this->kv->delete($this->getResourceKey($resource, $this->sessionId));
-            }
-
-            $this->session->destroy($this->sessionId);
-            $this->sessionId = null;
+        if (null === $this->sessionId) {
+            return;
         }
+
+        foreach ($this->resources as $resource) {
+            $this->kv->delete($this->getResourceKey($resource, $this->sessionId));
+        }
+
+        $this->session->destroy($this->sessionId);
+        $this->sessionId = null;
     }
 
     private function acquireResources(): bool
     {
-        $result = true;
-
         foreach ($this->resources as $resource) {
-            if (false === $this->kv->put($this->getResourceKey($resource, $this->sessionId), '', ['acquire' => $this->sessionId])->json()) {
-                $result = false;
-            } else {
-                $semaphoreMetaDataValue = [
-                    'limit' => $resource->getLimit(),
-                    'sessions' => [],
-                ];
-
-                // get actual metadata
-                $semaphoreDataItems = $this->kv->get($this->getResourceKeyPrefix($resource), ['recurse' => true])->json();
-                foreach ($semaphoreDataItems as $key => $item) {
-                    if ($item['Key'] == $this->getResourceKey($resource, $this->metaDataKey)) {
-                        $semaphoreMetaDataActual = $item;
-                        $semaphoreMetaDataActual['Value'] = json_decode(base64_decode($semaphoreMetaDataActual['Value']), true);
-                        unset($semaphoreDataItems[$key]);
-
-                        break;
-                    }
-                }
-
-                // build new metadata
-                if (isset($semaphoreMetaDataActual)) {
-                    foreach ($semaphoreDataItems as $item) {
-                        if (isset($item['Session'])) {
-                            if (isset($semaphoreMetaDataActual['Value']['sessions'][$item['Session']])) {
-                                $semaphoreMetaDataValue['sessions'][$item['Session']] = $semaphoreMetaDataActual['Value']['sessions'][$item['Session']];
-                            }
-                        } else {
-                            $this->kv->delete($item['Key']);
-                        }
-                    }
-                }
-
-                $resource->setAcquired(
-                    min($resource->getAcquire(), $semaphoreMetaDataValue['limit'] - array_sum($semaphoreMetaDataValue['sessions']))
-                );
-
-                // add new element to metadata and save it
-                if ($resource->getAcquired() > 0) {
-                    $semaphoreMetaDataValue['sessions'][$this->sessionId] = $resource->getAcquired();
-                    $result = $this->kv->put(
-                        $this->getResourceKey($resource, $this->metaDataKey),
-                        $semaphoreMetaDataValue,
-                        ['cas' => isset($semaphoreMetaDataActual) ? $semaphoreMetaDataActual['ModifyIndex'] : 0]
-                    )->json();
-                } else {
-                    $result = false;
-                }
+            if (!$this->acquireResource($resource)) {
+                return false;
             }
+        }
 
-            if (!$result) {
+        return true;
+    }
+
+    private function acquireResource(Resource $resource): bool
+    {
+        if (false === $this->kv->put($this->getResourceKey($resource, $this->sessionId), '', ['acquire' => $this->sessionId])->json()) {
+            return false;
+        }
+
+        $metaDataKey = $this->getResourceKey($resource, self::META_DATA_KEY);
+
+        // Fetch the current metadata
+        $metaData = null;
+        $items = $this->kv->get($this->getResourceKeyPrefix($resource), ['recurse' => true])->json();
+        foreach ($items as $key => $item) {
+            if ($item['Key'] === $metaDataKey) {
+                $metaData = $item;
+                $metaData['Value'] = json_decode(base64_decode($item['Value']), true);
+                unset($items[$key]);
+
                 break;
             }
         }
 
-        return $result;
+        // Keep only sessions still holding the resource, and clean up orphan keys
+        $sessions = [];
+        if (null !== $metaData) {
+            foreach ($items as $item) {
+                if (!isset($item['Session'])) {
+                    $this->kv->delete($item['Key']);
+                } elseif (isset($metaData['Value']['sessions'][$item['Session']])) {
+                    $sessions[$item['Session']] = $metaData['Value']['sessions'][$item['Session']];
+                }
+            }
+        }
+
+        $resource->setAcquired(min($resource->getAcquire(), $resource->getLimit() - array_sum($sessions)));
+
+        if ($resource->getAcquired() <= 0) {
+            return false;
+        }
+
+        // Register the current session in the metadata and save it
+        $sessions[$this->sessionId] = $resource->getAcquired();
+
+        return true === $this->kv->put(
+            $metaDataKey,
+            ['limit' => $resource->getLimit(), 'sessions' => $sessions],
+            ['cas' => $metaData['ModifyIndex'] ?? 0],
+        )->json();
     }
 
     private function getResourceKeyPrefix(Resource $resource): string

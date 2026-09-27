@@ -7,31 +7,23 @@ use Consul\ClientInterface;
 use Consul\ConsulResponse;
 use Consul\OptionsResolver;
 
-final class Catalog
+final readonly class Catalog
 {
     private ClientInterface $client;
 
     public function __construct(?ClientInterface $client = null)
     {
-        $this->client = $client ?: new Client();
+        $this->client = $client ?? new Client();
     }
 
     public function register(array $node): ConsulResponse
     {
-        $params = [
-            'json' => $node,
-        ];
-
-        return $this->client->put('/v1/catalog/register', $params);
+        return $this->client->put('/v1/catalog/register', ['json' => $node]);
     }
 
     public function deregister(array $node): ConsulResponse
     {
-        $params = [
-            'json' => $node,
-        ];
-
-        return $this->client->put('/v1/catalog/deregister', $params);
+        return $this->client->put('/v1/catalog/deregister', ['json' => $node]);
     }
 
     public function datacenters(): ConsulResponse
@@ -41,37 +33,21 @@ final class Catalog
 
     public function nodes(array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['dc']),
-        ];
-
-        return $this->client->get('/v1/catalog/nodes', $params);
+        return $this->client->get('/v1/catalog/nodes', ['query' => OptionsResolver::resolve($options, ['dc'])]);
     }
 
     public function node(string $node, array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['dc']),
-        ];
-
-        return $this->client->get('/v1/catalog/node/'.$node, $params);
+        return $this->client->get('/v1/catalog/node/'.$node, ['query' => OptionsResolver::resolve($options, ['dc'])]);
     }
 
     public function services(array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['dc']),
-        ];
-
-        return $this->client->get('/v1/catalog/services', $params);
+        return $this->client->get('/v1/catalog/services', ['query' => OptionsResolver::resolve($options, ['dc'])]);
     }
 
     public function service(string $service, array $options = []): ConsulResponse
     {
-        $params = [
-            'query' => OptionsResolver::resolve($options, ['dc', 'tag']),
-        ];
-
-        return $this->client->get('/v1/catalog/service/'.$service, $params);
+        return $this->client->get('/v1/catalog/service/'.$service, ['query' => OptionsResolver::resolve($options, ['dc', 'tag'])]);
     }
 }

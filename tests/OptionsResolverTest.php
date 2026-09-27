@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class OptionsResolverTest extends TestCase
 {
-    public function testResolve()
+    public function testResolve(): void
     {
         $options = [
             'foo' => 'bar',
@@ -29,7 +29,7 @@ class OptionsResolverTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    public function testResolveWithoutMatchingOptions()
+    public function testResolveWithoutMatchingOptions(): void
     {
         $options = [
             'hello' => 'world',
