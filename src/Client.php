@@ -73,6 +73,21 @@ final class Client implements ClientInterface
             $options['body'] = json_encode($options['body'], \JSON_THROW_ON_ERROR);
         }
 
+        // Consul expects multi-valued parameters to be repeated (?tag=a&tag=b),
+        // but Symfony HttpClient encodes them PHP-style (?tag[0]=a&tag[1]=b)
+        $repeatedParameters = [];
+        foreach ($options['query'] ?? [] as $name => $values) {
+            if (\is_array($values)) {
+                unset($options['query'][$name]);
+                foreach ($values as $value) {
+                    $repeatedParameters[] = rawurlencode($name).'='.rawurlencode((string) $value);
+                }
+            }
+        }
+        if ($repeatedParameters) {
+            $url .= (str_contains($url, '?') ? '&' : '?').implode('&', $repeatedParameters);
+        }
+
         $this->logger->info(\sprintf('%s "%s"', $method, $url));
         $this->logger->debug(\sprintf('Requesting %s %s', $method, $url), ['options' => $options]);
 

@@ -67,7 +67,7 @@ final readonly class Connect
         return $this->client->get('/v1/connect/intentions/check', ['query' => ['source' => $source, 'destination' => $destination] + OptionsResolver::resolve($options, ['dc'])]);
     }
 
-    public function matchIntentions(string $by, string $name, array $options = []): ConsulResponse
+    public function matchIntentions(string $by, string|array $name, array $options = []): ConsulResponse
     {
         return $this->client->get('/v1/connect/intentions/match', ['query' => ['by' => $by, 'name' => $name] + OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'stale', 'consistent', 'cached'])]);
     }

@@ -16,6 +16,7 @@
 * Add all missing endpoints to `Agent`, `Catalog` and `Health` services
 * Whitelist all documented options (blocking queries, consistency modes,
   filtering, ...) in `Agent`, `Catalog`, `Health`, `KV` and `Session` services
+* Support multi-valued options (e.g. `['tag' => ['v1', 'primary']]`)
 * Allow the `dc` option on all endpoints not local to the agent
 * Fix `Agent::join()` and `Agent::forceLeave()` HTTP method (`PUT` instead of `GET`)
 

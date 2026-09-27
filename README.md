@@ -100,7 +100,8 @@ $response = $service->method($mandatoryArgument, $someOptions);
 
 - Mandatory API arguments come first;
 - Optional API arguments are passed in the `$options` array, with the same name
-  as in the Consul documentation;
+  as in the Consul documentation. Use an array for multi-valued arguments, e.g.
+  `['tag' => ['v1', 'primary']]`;
 - Every method returns a `Consul\ConsulResponse`, which exposes `getBody()`,
   `json()`, `getHeaders()`, `getStatusCode()` and `isSuccessful()`;
 - A `4xx` response throws a `Consul\Exception\ClientException`;

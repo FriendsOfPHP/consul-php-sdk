@@ -97,6 +97,32 @@ class CatalogTest extends TestCase
         self::assertSame([], $this->catalog->service('catalog-test', ['filter' => 'ServicePort == 1'])->json());
     }
 
+    public function testServiceWithManyTags(): void
+    {
+        $this->catalog->register([
+            'Node' => 'catalog-test-node',
+            'Address' => '10.0.0.1',
+            'Service' => [
+                'ID' => 'catalog-test-service-2',
+                'Service' => 'catalog-test',
+                'Tags' => ['foo', 'bar'],
+                'Port' => 8081,
+            ],
+        ]);
+
+        $json = $this->catalog->service('catalog-test', ['tag' => 'foo'])->json();
+        self::assertSame(['catalog-test-service', 'catalog-test-service-2'], array_column($json, 'ServiceID'));
+
+        $json = $this->catalog->service('catalog-test', ['tag' => ['foo', 'bar']])->json();
+        self::assertSame(['catalog-test-service-2'], array_column($json, 'ServiceID'));
+    }
+
+    public function testNodesWithManyNodeMeta(): void
+    {
+        self::assertSame(['catalog-test-node'], array_column($this->catalog->nodes(['node-meta' => ['env:catalog-test']])->json(), 'Node'));
+        self::assertSame([], $this->catalog->nodes(['node-meta' => ['env:catalog-test', 'rack:unknown']])->json());
+    }
+
     public function testConnect(): void
     {
         $json = $this->catalog->connect('catalog-test')->json();

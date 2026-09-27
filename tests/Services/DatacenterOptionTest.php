@@ -39,7 +39,7 @@ class DatacenterOptionTest extends TestCase
             $arguments[] = match (true) {
                 'options' === $parameter->getName() => ['dc' => 'dc2'],
                 $parameter->isDefaultValueAvailable() => $parameter->getDefaultValue(),
-                default => match ($parameter->getType()?->getName()) {
+                default => match ((string) $parameter->getType()) {
                     'array' => [],
                     'bool' => true,
                     default => 'foo',
