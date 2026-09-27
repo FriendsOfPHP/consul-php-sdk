@@ -1,11 +1,5 @@
 # Consul PHP SDK
 
-[![CI](https://github.com/FriendsOfPHP/consul-php-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/FriendsOfPHP/consul-php-sdk/actions/workflows/ci.yml)
-[![Latest Stable Version](https://img.shields.io/packagist/v/friendsofphp/consul-php-sdk)](https://packagist.org/packages/friendsofphp/consul-php-sdk)
-[![Total Downloads](https://img.shields.io/packagist/dt/friendsofphp/consul-php-sdk)](https://packagist.org/packages/friendsofphp/consul-php-sdk)
-[![PHP Version](https://img.shields.io/packagist/dependency-v/friendsofphp/consul-php-sdk/php)](https://packagist.org/packages/friendsofphp/consul-php-sdk)
-[![License](https://img.shields.io/packagist/l/friendsofphp/consul-php-sdk)](LICENSE)
-
 A thin, no-magic PHP wrapper around the [Consul](https://www.consul.io/) HTTP API,
 built on top of [Symfony HttpClient](https://symfony.com/doc/current/http_client.html).
 
