@@ -16,38 +16,48 @@ final readonly class Peering
         $this->client = $client ?? new Client();
     }
 
-    public function generateToken(array $peering): ConsulResponse
+    public function generateToken(array $peering, array $options = []): ConsulResponse
     {
-        return $this->client->post('/v1/peering/token', ['json' => $peering]);
+        $params = [
+            'json' => $peering,
+            'query' => OptionsResolver::resolve($options, ['dc']),
+        ];
+
+        return $this->client->post('/v1/peering/token', $params);
     }
 
-    public function establish(array $peering): ConsulResponse
+    public function establish(array $peering, array $options = []): ConsulResponse
     {
-        return $this->client->post('/v1/peering/establish', ['json' => $peering]);
+        $params = [
+            'json' => $peering,
+            'query' => OptionsResolver::resolve($options, ['dc']),
+        ];
+
+        return $this->client->post('/v1/peering/establish', $params);
     }
 
     public function read(string $name, array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/peering/'.$name, ['query' => OptionsResolver::resolve($options, ['index', 'wait', 'consistent'])]);
+        return $this->client->get('/v1/peering/'.$name, ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'consistent'])]);
     }
 
-    public function delete(string $name): ConsulResponse
+    public function delete(string $name, array $options = []): ConsulResponse
     {
-        return $this->client->delete('/v1/peering/'.$name);
+        return $this->client->delete('/v1/peering/'.$name, ['query' => OptionsResolver::resolve($options, ['dc'])]);
     }
 
     public function list(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/peerings', ['query' => OptionsResolver::resolve($options, ['index', 'wait', 'consistent', 'cached'])]);
+        return $this->client->get('/v1/peerings', ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'consistent', 'cached'])]);
     }
 
     public function listExportedServices(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/exported-services', ['query' => OptionsResolver::resolve($options, ['index', 'wait'])]);
+        return $this->client->get('/v1/exported-services', ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait'])]);
     }
 
     public function listImportedServices(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/imported-services', ['query' => OptionsResolver::resolve($options, ['index', 'wait'])]);
+        return $this->client->get('/v1/imported-services', ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait'])]);
     }
 }

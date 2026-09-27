@@ -254,9 +254,9 @@ class ACLTest extends TestCase
 
     public function testQueryOptionsAreFiltered(): void
     {
-        $acl = $this->createMockedACL('GET', '/v1/acl/tokens', 'policy=p&role=r&servicename=s&authmethod=a&index=1&wait=1s&stale=1&consistent=1', '', '[]');
+        $acl = $this->createMockedACL('GET', '/v1/acl/tokens', 'policy=p&role=r&servicename=s&authmethod=a&index=1&wait=1s&stale=1&consistent=1&dc=dc1', '', '[]');
 
-        $acl->listTokens(['policy' => 'p', 'role' => 'r', 'servicename' => 's', 'authmethod' => 'a', 'index' => 1, 'wait' => '1s', 'stale' => true, 'consistent' => true, 'ns' => 'foo', 'dc' => 'dc1']);
+        $acl->listTokens(['policy' => 'p', 'role' => 'r', 'servicename' => 's', 'authmethod' => 'a', 'index' => 1, 'wait' => '1s', 'stale' => true, 'consistent' => true, 'dc' => 'dc1', 'ns' => 'foo']);
     }
 
     private function createMockedACL(string $method, string $path, string $query, string $body, string $responseBody, array $expectedHeaders = []): ACL

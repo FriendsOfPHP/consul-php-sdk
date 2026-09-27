@@ -23,7 +23,7 @@ final readonly class Operator
 
     public function transferRaftLeader(array $options = []): ConsulResponse
     {
-        return $this->client->post('/v1/operator/raft/transfer-leader', ['query' => OptionsResolver::resolve($options, ['id'])]);
+        return $this->client->post('/v1/operator/raft/transfer-leader', ['query' => OptionsResolver::resolve($options, ['dc', 'id'])]);
     }
 
     /**
@@ -31,19 +31,19 @@ final readonly class Operator
      */
     public function deleteRaftPeer(array $options = []): ConsulResponse
     {
-        return $this->client->delete('/v1/operator/raft/peer', ['query' => OptionsResolver::resolve($options, ['id', 'address', 'dc'])]);
+        return $this->client->delete('/v1/operator/raft/peer', ['query' => OptionsResolver::resolve($options, ['dc', 'id', 'address', 'dc'])]);
     }
 
     public function listKeys(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/operator/keyring', ['query' => OptionsResolver::resolve($options, ['relay-factor', 'local-only'])]);
+        return $this->client->get('/v1/operator/keyring', ['query' => OptionsResolver::resolve($options, ['dc', 'relay-factor', 'local-only'])]);
     }
 
     public function installKey(string $key, array $options = []): ConsulResponse
     {
         $params = [
             'json' => ['Key' => $key],
-            'query' => OptionsResolver::resolve($options, ['relay-factor']),
+            'query' => OptionsResolver::resolve($options, ['dc', 'relay-factor']),
         ];
 
         return $this->client->post('/v1/operator/keyring', $params);
@@ -53,7 +53,7 @@ final readonly class Operator
     {
         $params = [
             'json' => ['Key' => $key],
-            'query' => OptionsResolver::resolve($options, ['relay-factor']),
+            'query' => OptionsResolver::resolve($options, ['dc', 'relay-factor']),
         ];
 
         return $this->client->put('/v1/operator/keyring', $params);
@@ -63,7 +63,7 @@ final readonly class Operator
     {
         $params = [
             'json' => ['Key' => $key],
-            'query' => OptionsResolver::resolve($options, ['relay-factor']),
+            'query' => OptionsResolver::resolve($options, ['dc', 'relay-factor']),
         ];
 
         return $this->client->delete('/v1/operator/keyring', $params);
@@ -96,6 +96,6 @@ final readonly class Operator
 
     public function readUsage(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/operator/usage', ['query' => OptionsResolver::resolve($options, ['global', 'index', 'wait', 'stale', 'consistent'])]);
+        return $this->client->get('/v1/operator/usage', ['query' => OptionsResolver::resolve($options, ['dc', 'global', 'index', 'wait', 'stale', 'consistent'])]);
     }
 }

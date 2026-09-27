@@ -161,11 +161,11 @@ final readonly class Agent
 
     public function connectCARoots(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/agent/connect/ca/roots', ['query' => OptionsResolver::resolve($options, ['index', 'wait', 'stale', 'consistent', 'cached'])]);
+        return $this->client->get('/v1/agent/connect/ca/roots', ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'stale', 'consistent', 'cached'])]);
     }
 
     public function connectCALeaf(string $service, array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/agent/connect/ca/leaf/'.$service, ['query' => OptionsResolver::resolve($options, ['index', 'wait', 'stale', 'consistent', 'cached'])]);
+        return $this->client->get('/v1/agent/connect/ca/leaf/'.$service, ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'stale', 'consistent', 'cached'])]);
     }
 }

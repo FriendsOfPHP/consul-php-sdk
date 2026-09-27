@@ -18,7 +18,7 @@ final readonly class DiscoveryChain
 
     public function read(string $service, array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/discovery-chain/'.$service, ['query' => OptionsResolver::resolve($options, ['compile-dc', 'index', 'wait', 'stale', 'consistent', 'cached'])]);
+        return $this->client->get('/v1/discovery-chain/'.$service, ['query' => OptionsResolver::resolve($options, ['dc', 'compile-dc', 'index', 'wait', 'stale', 'consistent', 'cached'])]);
     }
 
     /**
@@ -29,7 +29,7 @@ final readonly class DiscoveryChain
         $params = [
             // Consul expects a JSON object, even when empty
             'json' => (object) $overrides,
-            'query' => OptionsResolver::resolve($options, ['compile-dc', 'index', 'wait', 'stale', 'consistent', 'cached']),
+            'query' => OptionsResolver::resolve($options, ['dc', 'compile-dc', 'index', 'wait', 'stale', 'consistent', 'cached']),
         ];
 
         return $this->client->post('/v1/discovery-chain/'.$service, $params);

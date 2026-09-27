@@ -31,6 +31,6 @@ final readonly class Event
 
     public function list(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/event/list', ['query' => OptionsResolver::resolve($options, ['name', 'node', 'service', 'tag', 'index', 'wait'])]);
+        return $this->client->get('/v1/event/list', ['query' => OptionsResolver::resolve($options, ['dc', 'name', 'node', 'service', 'tag', 'index', 'wait'])]);
     }
 }
