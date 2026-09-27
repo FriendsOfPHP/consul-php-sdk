@@ -47,6 +47,8 @@ jobs:
     services:
       consul:
         image: hashicorp/consul:2.0
+        env:
+          CONSUL_LOCAL_CONFIG: '{"acl":{"enabled":true,"default_policy":"allow","tokens":{"initial_management":"root"}}}'
         ports:
           - 8500:8500
 

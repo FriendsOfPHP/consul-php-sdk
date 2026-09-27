@@ -18,7 +18,17 @@ final class Client implements ClientInterface
 
     public function __construct(array $options = [], ?LoggerInterface $logger = null, ?HttpClientInterface $client = null)
     {
-        $this->client = $client ?? HttpClient::create([...$options, 'base_uri' => DsnResolver::resolve($options)]);
+        if (!$client) {
+            $options['base_uri'] = DsnResolver::resolve($options);
+
+            if ($token = $_SERVER['CONSUL_HTTP_TOKEN'] ?? null) {
+                $options['headers'] = ($options['headers'] ?? []) + ['X-Consul-Token' => $token];
+            }
+
+            $client = HttpClient::create($options);
+        }
+
+        $this->client = $client;
         $this->logger = $logger ?? new NullLogger();
     }
 

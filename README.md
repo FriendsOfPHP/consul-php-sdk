@@ -59,6 +59,8 @@ $client = new Client([
 ]);
 ```
 
+The token can also be set with the `CONSUL_HTTP_TOKEN` environment variable.
+
 You can also pass a PSR-3 logger, and your own `HttpClientInterface` instance:
 
 ```php
@@ -233,10 +235,13 @@ Looking for Guzzle support, or older versions of PHP? Check the
 ## 🧪 Running the test suite
 
 The test suite needs a Consul agent listening on `localhost:8500` (or on
-`CONSUL_HTTP_ADDR`). The easiest way is to use Docker:
+`CONSUL_HTTP_ADDR`), with ACLs enabled and `root` as management token. The
+easiest way is to use Docker:
 
 ```bash
-docker run -d --rm --name consul -p 8500:8500 hashicorp/consul agent -dev -client=0.0.0.0
+docker run -d --rm --name consul -p 8500:8500 \
+    -e CONSUL_LOCAL_CONFIG='{"acl":{"enabled":true,"default_policy":"allow","tokens":{"initial_management":"root"}}}' \
+    hashicorp/consul
 ```
 
 Then run:

@@ -10,6 +10,7 @@
 * Fix `MultiSemaphore` reusing the metadata of a previous resource when acquiring many resources
 * Fix `Session::create()` (and so `LockHandler`) when called without arguments
 * Rework the README
+* Read the ACL token from the `CONSUL_HTTP_TOKEN` environment variable
 
 ## 5.3.0 (2025-12-08)
 
