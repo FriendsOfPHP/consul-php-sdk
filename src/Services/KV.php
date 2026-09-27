@@ -18,7 +18,7 @@ final readonly class KV
 
     public function get(string $key, array $options = []): ConsulResponse
     {
-        return $this->client->get('v1/kv/'.$key, ['query' => OptionsResolver::resolve($options, ['dc', 'recurse', 'keys', 'separator', 'raw', 'stale', 'consistent', 'default'])]);
+        return $this->client->get('v1/kv/'.$key, ['query' => OptionsResolver::resolve($options, ['dc', 'recurse', 'keys', 'separator', 'raw', 'index', 'wait', 'stale', 'consistent', 'default'])]);
     }
 
     public function put(string $key, mixed $value, array $options = []): ConsulResponse
@@ -33,6 +33,6 @@ final readonly class KV
 
     public function delete(string $key, array $options = []): ConsulResponse
     {
-        return $this->client->delete('v1/kv/'.$key, ['query' => OptionsResolver::resolve($options, ['dc', 'recurse'])]);
+        return $this->client->delete('v1/kv/'.$key, ['query' => OptionsResolver::resolve($options, ['dc', 'recurse', 'cas'])]);
     }
 }
