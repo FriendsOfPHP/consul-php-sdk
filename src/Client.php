@@ -18,7 +18,17 @@ final class Client implements ClientInterface
 
     public function __construct(array $options = [], ?LoggerInterface $logger = null, ?HttpClientInterface $client = null)
     {
-        $this->client = $client ?? HttpClient::create([...$options, 'base_uri' => DsnResolver::resolve($options)]);
+        if (!$client) {
+            $options['base_uri'] = DsnResolver::resolve($options);
+
+            if ($token = $_SERVER['CONSUL_HTTP_TOKEN'] ?? null) {
+                $options['headers'] = ($options['headers'] ?? []) + ['X-Consul-Token' => $token];
+            }
+
+            $client = HttpClient::create($options);
+        }
+
+        $this->client = $client;
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -61,6 +71,21 @@ final class Client implements ClientInterface
     {
         if (\is_array($options['body'] ?? null)) {
             $options['body'] = json_encode($options['body'], \JSON_THROW_ON_ERROR);
+        }
+
+        // Consul expects multi-valued parameters to be repeated (?tag=a&tag=b),
+        // but Symfony HttpClient encodes them PHP-style (?tag[0]=a&tag[1]=b)
+        $repeatedParameters = [];
+        foreach ($options['query'] ?? [] as $name => $values) {
+            if (\is_array($values)) {
+                unset($options['query'][$name]);
+                foreach ($values as $value) {
+                    $repeatedParameters[] = rawurlencode($name).'='.rawurlencode((string) $value);
+                }
+            }
+        }
+        if ($repeatedParameters) {
+            $url .= (str_contains($url, '?') ? '&' : '?').implode('&', $repeatedParameters);
         }
 
         $this->logger->info(\sprintf('%s "%s"', $method, $url));

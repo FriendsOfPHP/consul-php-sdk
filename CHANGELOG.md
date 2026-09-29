@@ -10,6 +10,15 @@
 * Fix `MultiSemaphore` reusing the metadata of a previous resource when acquiring many resources
 * Fix `Session::create()` (and so `LockHandler`) when called without arguments
 * Rework the README
+* Read the ACL token from the `CONSUL_HTTP_TOKEN` environment variable
+* Add `ACL`, `Config`, `Connect`, `Coordinate`, `DiscoveryChain`, `Event`,
+  `Operator`, `Peering`, `PreparedQuery`, `Snapshot` and `Status` services
+* Add all missing endpoints to `Agent`, `Catalog` and `Health` services
+* Whitelist all documented options (blocking queries, consistency modes,
+  filtering, ...) in `Agent`, `Catalog`, `Health`, `KV` and `Session` services
+* Support multi-valued options (e.g. `['tag' => ['v1', 'primary']]`)
+* Allow the `dc` option on all endpoints not local to the agent
+* Fix `Agent::join()` and `Agent::forceLeave()` HTTP method (`PUT` instead of `GET`)
 
 ## 5.3.0 (2025-12-08)
 

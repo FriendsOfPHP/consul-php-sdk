@@ -1,11 +1,5 @@
 # Consul PHP SDK
 
-[![CI](https://github.com/FriendsOfPHP/consul-php-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/FriendsOfPHP/consul-php-sdk/actions/workflows/ci.yml)
-[![Latest Stable Version](https://img.shields.io/packagist/v/friendsofphp/consul-php-sdk)](https://packagist.org/packages/friendsofphp/consul-php-sdk)
-[![Total Downloads](https://img.shields.io/packagist/dt/friendsofphp/consul-php-sdk)](https://packagist.org/packages/friendsofphp/consul-php-sdk)
-[![PHP Version](https://img.shields.io/packagist/dependency-v/friendsofphp/consul-php-sdk/php)](https://packagist.org/packages/friendsofphp/consul-php-sdk)
-[![License](https://img.shields.io/packagist/l/friendsofphp/consul-php-sdk)](LICENSE)
-
 A thin, no-magic PHP wrapper around the [Consul](https://www.consul.io/) HTTP API,
 built on top of [Symfony HttpClient](https://symfony.com/doc/current/http_client.html).
 
@@ -19,8 +13,9 @@ echo $kv->get('config/feature-flag', ['raw' => true])->getBody(); // enabled
 
 ## ✨ Features
 
+- 🧭 **The whole Consul CE HTTP API**: 17 services, from KV to ACL, service mesh and operator endpoints
 - 🗝️ **Key/Value store**, **sessions** and **transactions**
-- 🩺 **Service discovery**: agent, catalog and health endpoints
+- 🩺 **Service discovery**: agent, catalog, health and prepared queries
 - 🔒 **Distributed locks and semaphores**, ready to use
 - 🪶 **Lightweight**: only depends on `symfony/http-client` and `psr/log`
 - 🔌 **Pluggable**: bring your own HTTP client and PSR-3 logger
@@ -59,6 +54,8 @@ $client = new Client([
 ]);
 ```
 
+The token can also be set with the `CONSUL_HTTP_TOKEN` environment variable.
+
 You can also pass a PSR-3 logger, and your own `HttpClientInterface` instance:
 
 ```php
@@ -67,14 +64,25 @@ $client = new Client(logger: $logger, client: $httpClient);
 
 ### Available services
 
-| Service                    | Consul API                                                                   |
-|----------------------------|------------------------------------------------------------------------------|
-| `Consul\Services\Agent`    | [`/v1/agent`](https://developer.hashicorp.com/consul/api-docs/agent)         |
-| `Consul\Services\Catalog`  | [`/v1/catalog`](https://developer.hashicorp.com/consul/api-docs/catalog)     |
-| `Consul\Services\Health`   | [`/v1/health`](https://developer.hashicorp.com/consul/api-docs/health)       |
-| `Consul\Services\KV`       | [`/v1/kv`](https://developer.hashicorp.com/consul/api-docs/kv)               |
-| `Consul\Services\Session`  | [`/v1/session`](https://developer.hashicorp.com/consul/api-docs/session)     |
-| `Consul\Services\TXN`      | [`/v1/txn`](https://developer.hashicorp.com/consul/api-docs/txn)             |
+| Service | Consul API |
+|---------|------------|
+| `Consul\Services\ACL` | [`/v1/acl`](https://developer.hashicorp.com/consul/api-docs/acl) |
+| `Consul\Services\Agent` | [`/v1/agent`](https://developer.hashicorp.com/consul/api-docs/agent) |
+| `Consul\Services\Catalog` | [`/v1/catalog`](https://developer.hashicorp.com/consul/api-docs/catalog) |
+| `Consul\Services\Config` | [`/v1/config`](https://developer.hashicorp.com/consul/api-docs/config) |
+| `Consul\Services\Connect` | [`/v1/connect`](https://developer.hashicorp.com/consul/api-docs/connect) |
+| `Consul\Services\Coordinate` | [`/v1/coordinate`](https://developer.hashicorp.com/consul/api-docs/coordinate) |
+| `Consul\Services\DiscoveryChain` | [`/v1/discovery-chain`](https://developer.hashicorp.com/consul/api-docs/discovery-chain) |
+| `Consul\Services\Event` | [`/v1/event`](https://developer.hashicorp.com/consul/api-docs/event) |
+| `Consul\Services\Health` | [`/v1/health`](https://developer.hashicorp.com/consul/api-docs/health) |
+| `Consul\Services\KV` | [`/v1/kv`](https://developer.hashicorp.com/consul/api-docs/kv) |
+| `Consul\Services\Operator` | [`/v1/operator`](https://developer.hashicorp.com/consul/api-docs/operator) |
+| `Consul\Services\Peering` | [`/v1/peering`](https://developer.hashicorp.com/consul/api-docs/peering) |
+| `Consul\Services\PreparedQuery` | [`/v1/query`](https://developer.hashicorp.com/consul/api-docs/query) |
+| `Consul\Services\Session` | [`/v1/session`](https://developer.hashicorp.com/consul/api-docs/session) |
+| `Consul\Services\Snapshot` | [`/v1/snapshot`](https://developer.hashicorp.com/consul/api-docs/snapshot) |
+| `Consul\Services\Status` | [`/v1/status`](https://developer.hashicorp.com/consul/api-docs/status) |
+| `Consul\Services\TXN` | [`/v1/txn`](https://developer.hashicorp.com/consul/api-docs/txn) |
 
 ### Conventions
 
@@ -86,7 +94,8 @@ $response = $service->method($mandatoryArgument, $someOptions);
 
 - Mandatory API arguments come first;
 - Optional API arguments are passed in the `$options` array, with the same name
-  as in the Consul documentation;
+  as in the Consul documentation. Use an array for multi-valued arguments, e.g.
+  `['tag' => ['v1', 'primary']]`;
 - Every method returns a `Consul\ConsulResponse`, which exposes `getBody()`,
   `json()`, `getHeaders()`, `getStatusCode()` and `isSuccessful()`;
 - A `4xx` response throws a `Consul\Exception\ClientException`;
@@ -148,6 +157,17 @@ $txn->put([
     ['KV' => ['Verb' => 'set', 'Key' => 'config/a', 'Value' => base64_encode('1')]],
     ['KV' => ['Verb' => 'set', 'Key' => 'config/b', 'Value' => base64_encode('2')]],
 ]);
+```
+
+### Back up the cluster
+
+```php
+$snapshot = new Consul\Services\Snapshot();
+
+file_put_contents('backup.snap', $snapshot->save()->getBody());
+
+// Later...
+$snapshot->restore(file_get_contents('backup.snap'));
 ```
 
 ### Acquire an exclusive lock
@@ -233,10 +253,13 @@ Looking for Guzzle support, or older versions of PHP? Check the
 ## 🧪 Running the test suite
 
 The test suite needs a Consul agent listening on `localhost:8500` (or on
-`CONSUL_HTTP_ADDR`). The easiest way is to use Docker:
+`CONSUL_HTTP_ADDR`), with ACLs enabled and `root` as management token. The
+easiest way is to use Docker:
 
 ```bash
-docker run -d --rm --name consul -p 8500:8500 hashicorp/consul agent -dev -client=0.0.0.0
+docker run -d --rm --name consul -p 8500:8500 \
+    -e CONSUL_LOCAL_CONFIG='{"acl":{"enabled":true,"default_policy":"allow","tokens":{"initial_management":"root"}}}' \
+    hashicorp/consul
 ```
 
 Then run:

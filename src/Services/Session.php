@@ -34,17 +34,17 @@ final readonly class Session
 
     public function info(string $sessionId, array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/session/info/'.$sessionId, ['query' => OptionsResolver::resolve($options, ['dc'])]);
+        return $this->client->get('/v1/session/info/'.$sessionId, ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'stale', 'consistent'])]);
     }
 
     public function node(string $node, array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/session/node/'.$node, ['query' => OptionsResolver::resolve($options, ['dc'])]);
+        return $this->client->get('/v1/session/node/'.$node, ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'stale', 'consistent'])]);
     }
 
     public function all(array $options = []): ConsulResponse
     {
-        return $this->client->get('/v1/session/list', ['query' => OptionsResolver::resolve($options, ['dc'])]);
+        return $this->client->get('/v1/session/list', ['query' => OptionsResolver::resolve($options, ['dc', 'index', 'wait', 'stale', 'consistent'])]);
     }
 
     public function renew(string $sessionId, array $options = []): ConsulResponse

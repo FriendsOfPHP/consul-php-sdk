@@ -78,6 +78,26 @@ class KVTest extends TestCase
         $this->kv->get('test/my/key');
     }
 
+    public function testGetWithIndexOption(): void
+    {
+        $this->kv->put('test/my/key', 'hello');
+
+        $response = $this->kv->get('test/my/key');
+        $index = $response->getHeaders()['x-consul-index'][0];
+
+        $response = $this->kv->get('test/my/key', ['index' => $index, 'wait' => '10ms']);
+        $this->assertSame($index, $response->getHeaders()['x-consul-index'][0]);
+    }
+
+    public function testDeleteWithCasOption(): void
+    {
+        $this->kv->put('test/my/key', 'hello');
+        $modifyIndex = $this->kv->get('test/my/key')->json()[0]['ModifyIndex'];
+
+        $this->assertSame('false', $this->kv->delete('test/my/key', ['cas' => $modifyIndex + 1000])->getBody());
+        $this->assertSame('true', $this->kv->delete('test/my/key', ['cas' => $modifyIndex])->getBody());
+    }
+
     public function testDeleteWithRecurseOption(): void
     {
         $this->kv->put('test/my/key1', 'hello 1');

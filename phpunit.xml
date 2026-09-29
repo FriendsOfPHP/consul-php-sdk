@@ -16,6 +16,11 @@
         </testsuite>
     </testsuites>
 
+    <php>
+        <!-- Must match the "initial_management" token of the Consul agent used for tests -->
+        <server name="CONSUL_HTTP_TOKEN" value="root"/>
+    </php>
+
     <source>
         <include>
             <directory suffix=".php">src/</directory>
