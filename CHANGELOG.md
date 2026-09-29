@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## 5.4.0 (not released yet)
+## 5.5.0 (not released yet)
+
+## 5.4.0 (2026-09-29)
 
 * Drop support for PHP 8.1
 * Drop support for Symfony 5.4, 7.0, 7.1, 7.2, 7.3 and 8.0
